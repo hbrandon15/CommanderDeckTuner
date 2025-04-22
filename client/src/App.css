@@ -1,8 +1,9 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Adjust vertical alignment */
+  min-height: 100vh; /* Full viewport height */
+  flex-direction: column;
 }
 
 .logo {
@@ -41,3 +42,12 @@
   color: #888;
 }
 
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers horizontally */
+  justify-content: center; /* Centers vertically */
+  min-height: 100vh; /* Full viewport height */
+  text-align: center; /* Centers text inside the container */
+  padding: 20px;
+}
