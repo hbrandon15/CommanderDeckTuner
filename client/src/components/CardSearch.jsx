@@ -36,7 +36,11 @@ const CardSearch = () => {
       <div style={{ marginTop: "20px" }}>
         {results.map((card) => (
           <div key={card.id} style={{ marginBottom: "10px" }}>
-            <img src={card.image_uris?.small} alt={card.name} />
+            {card.image_uris ? (
+              <img src={card.image_uris.small} alt={card.name} />
+            ) : (
+              <p>No image available</p>
+            )}
             <p>{card.name}</p>
           </div>
         ))}
