@@ -15,6 +15,8 @@ body {
   align-items: center; /* Adjust vertical alignment */
   min-height: 100vh; /* Full viewport height */
   flex-direction: column;
+  margin: clamp(10px, 5%, 70px); /* Dynamic margin */
+  padding: clamp(10px, 2%, 30px); /* Dynamic padding */
 }
 
 .logo {
@@ -58,11 +60,18 @@ body {
   flex-direction: column;
   align-items: center; /* Centers horizontally */
   justify-content: center; /* Centers vertically */
-  min-height: 100vh; /* Full viewport height */
+  min-height: calc(100vh - 40px); /* Adjust height to account for margins */
   text-align: center; /* Centers text inside the container */
   padding: 20px;
-
+  margin: 20px; /* Adds margin on all sides */
   color: white; /* Adjust text color for better contrast */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Optional: Add a semi-transparent background for readability */
+  border-radius: 10px; /* Optional: Add rounded corners */
 }
 
 h1 {
