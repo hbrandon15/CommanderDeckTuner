@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { searchCards } from "../api/scryfall";
 import "./CardSearch.css"; // Assuming you have some CSS for styling
 
+
 const CardSearch = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
