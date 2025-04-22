@@ -51,3 +51,7 @@
   text-align: center; /* Centers text inside the container */
   padding: 20px;
 }
+
+h1 {
+  margin-bottom: 20px; /* Adjust the value as needed */
+}
