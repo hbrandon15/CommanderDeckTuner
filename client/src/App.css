@@ -50,6 +50,11 @@
   min-height: 100vh; /* Full viewport height */
   text-align: center; /* Centers text inside the container */
   padding: 20px;
+  background-image: url("./assets/hulking-raptor.png"); /* Path to your wallpaper */
+  background-size: cover; /* Ensures the image covers the entire container */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents tiling */
+  color: white; /* Adjust text color for better contrast */
 }
 
 h1 {
