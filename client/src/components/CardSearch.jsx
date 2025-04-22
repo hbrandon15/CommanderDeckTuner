@@ -5,18 +5,24 @@ const CardSearch = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {
     try {
+      setLoading(true);
       setError("");
       const data = await searchCards(query);
       setResults(data.data); // Scryfall returns results in a `data` array
     } catch (err) {
       setError("Failed to fetch cards. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  return (
+  return loading ? (
+    <p>Loading...</p>
+  ) : (
     <div style={{ textAlign: "center", marginTop: "20px" }}>
       <h2>Search for Magic Cards</h2>
       <input
