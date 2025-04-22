@@ -1,3 +1,14 @@
+body {
+  margin: 0; /* Removes default margin */
+  padding: 0; /* Removes default padding */
+  font-family: Arial, sans-serif; /* Optional: Set a global font */
+  background-image: url("./assets/hulking-raptor.png"); /* Path to your wallpaper */
+  background-size: cover; /* Ensures the image covers the entire page */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents tiling */
+  min-height: 100vh; /* Ensures the background covers the full viewport height */
+}
+
 #root {
   display: flex;
   justify-content: center; /* Centers horizontally */
@@ -50,10 +61,7 @@
   min-height: 100vh; /* Full viewport height */
   text-align: center; /* Centers text inside the container */
   padding: 20px;
-  background-image: url("./assets/hulking-raptor.png"); /* Path to your wallpaper */
-  background-size: cover; /* Ensures the image covers the entire container */
-  background-position: center; /* Centers the image */
-  background-repeat: no-repeat; /* Prevents tiling */
+
   color: white; /* Adjust text color for better contrast */
 }
 
