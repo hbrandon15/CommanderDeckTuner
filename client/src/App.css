@@ -2,7 +2,11 @@ body {
   margin: 0; /* Removes default margin */
   padding: 0; /* Removes default padding */
   font-family: Arial, sans-serif; /* Optional: Set a global font */
-  background-image: url("./assets/hulking-raptor.png"); /* Path to your wallpaper */
+  background-image: linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      /* Top transparency */ rgba(0, 0, 0, 0.5)
+    ),
+    /* Bottom transparency */ url("./assets/hulking-raptor.png"); /* Path to your wallpaper */
   background-size: cover; /* Ensures the image covers the entire page */
   background-position: center; /* Centers the image */
   background-repeat: no-repeat; /* Prevents tiling */
@@ -65,12 +69,6 @@ body {
   padding: 20px;
   margin: 20px; /* Adds margin on all sides */
   color: white; /* Adjust text color for better contrast */
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.5
-  ); /* Optional: Add a semi-transparent background for readability */
   border-radius: 10px; /* Optional: Add rounded corners */
 }
 
