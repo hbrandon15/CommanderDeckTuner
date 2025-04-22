@@ -56,6 +56,9 @@ body {
 .read-the-docs {
   color: #888;
 }
+.title {
+	color: white;
+}
 
 .app-container {
   display: flex;
@@ -66,7 +69,6 @@ body {
   text-align: center; /* Centers text inside the container */
   padding: 20px;
   margin: 20px; /* Adds margin on all sides */
-  color: white; /* Adjust text color for better contrast */
   border-radius: 10px; /* Optional: Add rounded corners */
 }
 
