@@ -14,7 +14,7 @@ const CardSearch = () => {
       setError("");
       const data = await searchCards(query);
       setResults(data.data); // Scryfall returns results in a `data` array
-    } catch (err) {
+    } catch {
       setError("Failed to fetch cards. Please try again.");
     } finally {
       setLoading(false);
