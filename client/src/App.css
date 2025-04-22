@@ -49,6 +49,14 @@ body {
   }
 }
 
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+	body {
+	  background-size: cover; /* Ensures the image fills the screen */
+	  background-position: top; /* Focuses on the top of the image */
+	}
+  }
+
 .card {
   padding: 2em;
 }
