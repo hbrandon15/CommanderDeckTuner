@@ -23,3 +23,14 @@ build/
 .vscode/
 .idea/
 .DS_Store
+
+# Testing
+coverage/
+*.test.js
+*.spec.js
+
+# Public assets (if dynamically generated)
+client/public/build/
+
+# Scripts output
+scripts/*.log
