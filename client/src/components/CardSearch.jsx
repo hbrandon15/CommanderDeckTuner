@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { searchCards } from "../api/scryfall";
+import "./CardSearch.css"; // Assuming you have some CSS for styling
 
 const CardSearch = () => {
   const [query, setQuery] = useState("");
@@ -23,41 +24,27 @@ const CardSearch = () => {
   return loading ? (
     <p>Loading...</p>
   ) : (
-    <div style={{ textAlign: "center", marginTop: "20px" }}>
+    <div className="search-container">
       <h2>Search for Magic Cards</h2>
       <input
         type="text"
         placeholder="Enter card name or type..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        style={{ padding: "10px", width: "300px" }}
+        className="search-input"
       />
-      <button
-        onClick={handleSearch}
-        style={{ marginLeft: "10px", padding: "10px 20px" }}
-      >
+      <button onClick={handleSearch} className="search-button">
         Search
       </button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <div style={{ marginTop: "20px" }}>
+      {error && <p className="error-message">{error}</p>}
+      <div className="results-container">
         {results.map((card) => (
-          <div
-            key={card.id}
-            style={{
-              border: "1px solid #ccc",
-              borderRadius: "8px",
-              padding: "10px",
-              marginBottom: "10px",
-              textAlign: "left",
-              maxWidth: "400px",
-              margin: "0 auto",
-            }}
-          >
+          <div key={card.id} className="card-container">
             {card.image_uris ? (
               <img
                 src={card.image_uris.small}
                 alt={card.name}
-                style={{ display: "block", margin: "0 auto" }}
+                className="card-image"
               />
             ) : (
               <p>No image available</p>
