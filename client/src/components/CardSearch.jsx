@@ -39,7 +39,7 @@ const CardSearch = () => {
       </button>
       {error && <p className="error-message">{error}</p>}
       <div className="results-container">
-        {results.map((card) => (
+        {results.slice(0,20).map((card) => ( // Limit to 20 results
           <div key={card.id} className="card-container">
             {card.image_uris ? (
              <img
