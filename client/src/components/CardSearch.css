@@ -75,6 +75,8 @@
   gap: 20px; /* Space between grid items */
   margin-top: 20px; /* Add some spacing above the grid */
   width: 100%; /* Allow results to span the full width */
+  max-width: 1200px; /* Limit the maximum width */
+  margin: 0 auto; /* Center the results */
 }
 
 .app-container {
