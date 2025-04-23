@@ -1,14 +1,23 @@
 .card-container {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.9); /* Light background for cards */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for better visuals */
+  padding: 15px; /* Add padding inside the card */
+  text-align: center; /* Center-align text */
+  transition: transform 0.2s; /* Add hover effect */
   margin-bottom: 10px;
-  text-align: left;
   max-width: 400px;
   margin: 0 auto;
 }
 
+.card-container:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
 .card-image {
+  width: 100%; /* Make the image responsive */
+  border-radius: 5px; /* Optional: Rounded corners for the image */
+  margin-bottom: 10px; /* Add spacing below the image */
   display: block;
   margin: 0 auto;
 }
@@ -24,6 +33,10 @@
   border-radius: 8px; /* Optional: Rounded corners */
   background-color: #fff; /* Optional: White background */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Subtle shadow */
+  width: 100%; /* Allow the search container to span the full width */
+  max-width: 1200px; /* Optional: Limit the maximum width for better readability */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 20px;
 }
 
 .search-input {
@@ -57,5 +70,30 @@
 }
 
 .results-container {
-  margin-top: 20px;
+  display: grid; /* Use grid layout */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive columns */
+  gap: 20px; /* Space between grid items */
+  margin-top: 20px; /* Add some spacing above the grid */
+  width: 100%; /* Allow results to span the full width */
+  max-width: 1200px; /* Limit the maximum width */
+  margin: 0 auto; /* Center the results */
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers horizontally */
+  justify-content: flex-start; /* Aligns content to the top */
+  min-height: 100vh; /* Full viewport height */
+  width: 100%; /* Allow full width */
+  max-width: none; /* Remove any width restriction */
+  text-align: center;
+  padding: 20px;
+  margin: 0; /* Remove margin to prevent unnecessary spacing */
+}
+
+@media (max-width: 768px) {
+  .results-container {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Smaller cards on mobile */
+  }
 }
