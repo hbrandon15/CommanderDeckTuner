@@ -39,16 +39,17 @@ const CardSearch = () => {
       </button>
       {error && <p className="error-message">{error}</p>}
       <div className="results-container">
-        {results.map((card) => (
+        {results.slice(0,20).map((card) => ( // Limit to 20 results
           <div key={card.id} className="card-container">
             {card.image_uris ? (
-              <img
-                src={card.image_uris.small}
-                alt={card.name}
-                className="card-image"
-              />
+             <img
+			 src={card.image_uris.png || card.image_uris.normal} // Fallback to 'normal' if 'png' is unavailable
+			 alt={card.name}
+			 className="card-image"
+			 loading="lazy"
+		   />
             ) : (
-              <p>No image available</p>
+              <div className="image-placeholder">Loading...</div>
             )}
             <h3>{card.name}</h3>
             <p>
