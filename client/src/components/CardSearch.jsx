@@ -43,7 +43,7 @@ const CardSearch = () => {
           <div key={card.id} className="card-container">
             {card.image_uris ? (
               <img
-                src={card.image_uris.large} // Use 'large' for high-quality images
+                src={card.image_uris.png} // Use 'png' for high-quality images
                 alt={card.name}
                 className="card-image"
               />
