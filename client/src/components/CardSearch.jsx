@@ -46,6 +46,7 @@ const CardSearch = () => {
                 src={card.image_uris.png} // Use 'png' for high-quality images
                 alt={card.name}
                 className="card-image"
+                loading="lazy" // Lazy load the image
               />
             ) : (
               <p>No image available</p>
