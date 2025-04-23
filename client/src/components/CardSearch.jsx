@@ -49,7 +49,7 @@ const CardSearch = () => {
                 loading="lazy" // Lazy load the image
               />
             ) : (
-              <p>No image available</p>
+              <div className="image-placeholder">Loading...</div>
             )}
             <h3>{card.name}</h3>
             <p>
