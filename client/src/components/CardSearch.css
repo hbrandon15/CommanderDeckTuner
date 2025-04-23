@@ -91,3 +91,9 @@
   padding: 20px;
   margin: 0; /* Remove margin to prevent unnecessary spacing */
 }
+
+@media (max-width: 768px) {
+  .results-container {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Smaller cards on mobile */
+  }
+}
