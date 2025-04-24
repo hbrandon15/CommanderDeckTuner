@@ -1,13 +1,21 @@
 import React from "react";
-import "./NavBar.css"; // Import the CSS for styling
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import "./NavBar.css";
 
 const NavBar = () => {
   return (
     <nav className="navbar">
       <h1 className="navbar-title">Commander Deck Tuner</h1>
       <ul className="navbar-links">
-        <li><a href="#search">Search</a></li>
-        <li><a href="#deck">Your Deck</a></li>
+        <li>
+          <Link to="/">Home</Link> {/* Navigate to the Home page */}
+        </li>
+        <li>
+          <Link to="/search">Search</Link> {/* Navigate to the Search page */}
+        </li>
+        <li>
+          <a href="#deck">Your Deck</a> {/* This can remain as an anchor link */}
+        </li>
       </ul>
     </nav>
   );
