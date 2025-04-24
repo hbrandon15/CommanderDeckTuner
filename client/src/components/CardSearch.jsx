@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { searchCards } from "../api/scryfall";
-import "./CardSearch.css"; // Assuming you have some CSS for styling
-
+import "./CardSearch.css";
 
 const CardSearch = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
+  const [deck, setDeck] = useState([]); // State to store the deck
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -20,6 +20,10 @@ const CardSearch = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleAddToDeck = (card) => {
+    setDeck((prevDeck) => [...prevDeck, card]);
   };
 
   return loading ? (
@@ -39,15 +43,15 @@ const CardSearch = () => {
       </button>
       {error && <p className="error-message">{error}</p>}
       <div className="results-container">
-        {results.slice(0,20).map((card) => ( // Limit to 20 results
+        {results.slice(0, 20).map((card) => (
           <div key={card.id} className="card-container">
             {card.image_uris ? (
-             <img
-			 src={card.image_uris.png || card.image_uris.normal} // Fallback to 'normal' if 'png' is unavailable
-			 alt={card.name}
-			 className="card-image"
-			 loading="lazy"
-		   />
+              <img
+                src={card.image_uris.png || card.image_uris.normal}
+                alt={card.name}
+                className="card-image"
+                loading="lazy"
+              />
             ) : (
               <div className="image-placeholder">Loading...</div>
             )}
@@ -64,8 +68,22 @@ const CardSearch = () => {
             <p>
               <strong>Set:</strong> {card.set_name}
             </p>
+            <button
+              className="add-to-deck-button"
+              onClick={() => handleAddToDeck(card)}
+            >
+              Add to Deck
+            </button>
           </div>
         ))}
+      </div>
+      <div className="deck-container">
+        <h2>Your Deck</h2>
+        <ul>
+          {deck.map((card, index) => (
+            <li key={index}>{card.name}</li>
+          ))}
+        </ul>
       </div>
     </div>
   );
