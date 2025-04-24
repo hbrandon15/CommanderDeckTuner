@@ -1,14 +1,20 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NavBar from "./components/NavBar";
 import CardSearch from "./components/CardSearch";
-import "./App.css";
 
-function App() {
+const Home = () => <h2>Welcome to Commander Deck Tuner!</h2>; // Example Home page
+
+const App = () => {
   return (
-    <div className="app-container">
-      <h1 class="title">Commander Deck Tuner</h1>
-      <CardSearch />
-    </div>
+    <Router>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} /> {/* Home page */}
+        <Route path="/search" element={<CardSearch />} /> {/* Search page */}
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
