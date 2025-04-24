@@ -1,5 +1,5 @@
 import React, { useState } from "react"; // Needed for state management
-import { searchCards } from "../api/scryfall"; // API function for card search
+import { searchCards } from "../../api/scryfall"; // API function for card search
 import "./CardSearch.css"; // Styles for the CardSearch component
 
 const CardSearch = () => {
