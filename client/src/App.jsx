@@ -5,7 +5,7 @@ import NavBar from "./components/NavBar";
 const App = () => {
   return (
     <>
-      <NavBar /> {/* Add the NavBar here */}
+      <NavBar />
       <CardSearch />
     </>
   );

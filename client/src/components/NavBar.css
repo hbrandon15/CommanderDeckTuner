@@ -1,11 +1,13 @@
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  position: fixed; /* Fix the navbar at the top */
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width */
   background-color: #007bff; /* Blue background */
   color: white;
   padding: 10px 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Ensure it stays above other elements */
 }
 
 .navbar-title {
@@ -33,4 +35,8 @@
 
 .navbar-links a:hover {
   text-decoration: underline;
+}
+
+body {
+  padding-top: 60px; /* Add padding to prevent content from being hidden under the fixed navbar */
 }
