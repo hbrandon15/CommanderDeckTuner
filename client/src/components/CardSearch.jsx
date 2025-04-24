@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { searchCards } from "../api/scryfall";
-import "./CardSearch.css";
+import React, { useState } from "react"; // Needed for state management
+import { searchCards } from "../api/scryfall"; // API function for card search
+import "./CardSearch.css"; // Styles for the CardSearch component
 
 const CardSearch = () => {
   const [query, setQuery] = useState("");

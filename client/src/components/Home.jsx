@@ -1,19 +1,14 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import NavBar from "./components/NavBar";
-import CardSearch from "./components/CardSearch";
-import Home from "./components/Home"; // Import the new Home component
+import React from "react"; // Needed to define the component
+import "./Home.css"; // Optional: Import styles for the Home component
 
-const App = () => {
+const Home = () => {
   return (
-    <Router>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} /> {/* Home page */}
-        <Route path="/search" element={<CardSearch />} /> {/* Search page */}
-      </Routes>
-    </Router>
+    <div className="home-container">
+      <h1>Welcome to Commander Deck Tuner!</h1>
+      <p>Build and manage your Commander decks with ease.</p>
+      <p>Use the search feature to find cards and add them to your deck.</p>
+    </div>
   );
 };
 
-export default App;
+export default Home;
