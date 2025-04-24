@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
 const mongoose = require("mongoose"); // Import Mongoose
+const deckRoutes = require("./routes/deckRoutes"); // Import the deck routes
 
 dotenv.config(); // Load environment variables from .env file
 
@@ -21,6 +22,9 @@ mongoose
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
+
+app.use(express.json()); // Middleware to parse JSON requests
+app.use("/api/decks", deckRoutes); // Use the deck routes
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
