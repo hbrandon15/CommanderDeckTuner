@@ -1,9 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import NavBar from "./components/NavBar";
-import CardSearch from "./components/CardSearch";
-
-const Home = () => <h2>Welcome to Commander Deck Tuner!</h2>; // Example Home page
+import NavBar from "./components/NavBar/NavBar";
+import CardSearch from "./components/CardSearch/CardSearch";
+import Home from "./components/Home/Home";
 
 const App = () => {
   return (
