@@ -5,6 +5,9 @@ const router = express.Router();
 
 // Create a new deck
 router.post("/", async (req, res) => {
+  console.log("Request headers:", req.headers); // Debug log for headers
+  console.log("Request body:", req.body); // Debug log for body
+
   const { deckName, cards } = req.body;
 
   try {

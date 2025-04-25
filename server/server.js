@@ -1,13 +1,13 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const helmet = require("helmet");
+// const helmet = require("helmet");
 const mongoose = require("mongoose"); // Import Mongoose
 const deckRoutes = require("./routes/deckRoutes"); // Import the deck routes
 
 dotenv.config(); // Load environment variables from .env file
 
 const app = express();
-app.use(helmet()); // Add Helmet middleware to enhance security
+// app.use(helmet()); // Add Helmet middleware to enhance security
 
 const PORT = process.env.PORT || 5000; // Use PORT from .env or default to 5000
 
@@ -25,6 +25,12 @@ app.get("/", (req, res) => {
 
 app.use(express.json()); // Middleware to parse JSON requests
 app.use("/api/decks", deckRoutes); // Use the deck routes
+
+app.use((req, res, next) => {
+  console.log("Incoming request:", req.method, req.url);
+  console.log("Headers:", req.headers);
+  next();
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
