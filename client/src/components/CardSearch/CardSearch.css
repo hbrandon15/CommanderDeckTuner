@@ -122,3 +122,17 @@
 .add-to-deck-button:hover {
   background-color: #218838; /* Darker green on hover */
 }
+
+
+.deck-cards {
+	margin: 20px 0;
+  }
+  
+  .deck-cards div {
+	transition: all 0.3s ease;
+  }
+  
+  .deck-cards div:hover {
+	transform: scale(1.05);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"; // Added useEffect for fetching decks
+import React, { useState, useEffect } from "react";
 import { searchCards } from "../../api/scryfall"; // API function for card search
 import axios from "axios"; // For making API requests to the backend
 import "./CardSearch.css"; // Styles for the CardSearch component
@@ -6,11 +6,11 @@ import "./CardSearch.css"; // Styles for the CardSearch component
 const CardSearch = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
-  const [deck, setDeck] = useState([]); // State to store the current deck
   const [decks, setDecks] = useState([]); // State to store the list of decks
-  const [selectedDeck, setSelectedDeck] = useState(""); // State to store the selected deck ID
+  const [newDeckName, setNewDeckName] = useState(""); // State for the new deck name
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [selectedDeck, setSelectedDeck] = useState(""); // State for selected deck
 
   // Fetch the list of decks from the backend when the component loads
   useEffect(() => {
@@ -39,26 +39,25 @@ const CardSearch = () => {
     }
   };
 
-  const handleAddToDeck = async (card) => {
-    if (!selectedDeck) {
-      alert("Please select a deck first!");
+  const handleCreateDeck = async () => {
+    if (!newDeckName.trim()) {
+      alert("Please enter a deck name!");
       return;
     }
 
     try {
-      const response = await axios.post(
-        `http://localhost:5001/api/decks/${selectedDeck}/cards`,
-        {
-          name: card.name,
-          manaCost: card.mana_cost,
-          type: card.type_line,
-        }
-      );
+      const response = await axios.post("http://localhost:5001/api/decks", {
+        deckName: newDeckName,
+        cards: [],
+      });
 
-      // Update the local deck state with the updated deck from the backend
-      setDeck(response.data.cards);
+      // Add the new deck to the list of decks
+      setDecks((prevDecks) => [...prevDecks, response.data]);
+
+      // Clear the new deck name input
+      setNewDeckName("");
     } catch (error) {
-      console.error("Error adding card to deck:", error);
+      console.error("Error creating new deck:", error);
     }
   };
 
@@ -79,20 +78,47 @@ const CardSearch = () => {
       </button>
       {error && <p className="error-message">{error}</p>}
 
-      {/* Deck selection dropdown */}
-      <div className="deck-selection">
+      {/* Deck selection cards */}
+      <div className="deck-cards">
         <h3>Select a Deck</h3>
-        <select
-          value={selectedDeck}
-          onChange={(e) => setSelectedDeck(e.target.value)}
-        >
-          <option value="">-- Select a Deck --</option>
+        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
           {decks.map((deck) => (
-            <option key={deck._id} value={deck._id}>
-              {deck.deckName}
-            </option>
+            <div
+              key={deck._id}
+              onClick={() => setSelectedDeck(deck._id)}
+              style={{
+                cursor: "pointer",
+                padding: "20px",
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+                backgroundColor: selectedDeck === deck._id ? "#d3f9d8" : "white",
+                textAlign: "center",
+                width: "150px",
+                boxShadow:
+                  selectedDeck === deck._id
+                    ? "0 0 10px rgba(0, 128, 0, 0.5)"
+                    : "0 0 5px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <h4>{deck.deckName}</h4>
+            </div>
           ))}
-        </select>
+        </div>
+      </div>
+
+      {/* Create a new deck */}
+      <div className="create-deck">
+        <h3>Create a New Deck</h3>
+        <input
+          type="text"
+          placeholder="Enter new deck name..."
+          value={newDeckName}
+          onChange={(e) => setNewDeckName(e.target.value)}
+          className="new-deck-input"
+        />
+        <button onClick={handleCreateDeck} className="create-deck-button">
+          Create Deck
+        </button>
       </div>
 
       <div className="results-container">
@@ -121,23 +147,8 @@ const CardSearch = () => {
             <p>
               <strong>Set:</strong> {card.set_name}
             </p>
-            <button
-              className="add-to-deck-button"
-              onClick={() => handleAddToDeck(card)}
-            >
-              Add to Deck
-            </button>
           </div>
         ))}
-      </div>
-
-      <div className="deck-container">
-        <h2>Your Deck</h2>
-        <ul>
-          {deck.map((card, index) => (
-            <li key={index}>{card.name}</li>
-          ))}
-        </ul>
       </div>
     </div>
   );
