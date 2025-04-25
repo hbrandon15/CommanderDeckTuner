@@ -110,18 +110,24 @@
 }
 
 .add-to-deck-button {
-  padding: 8px 16px;
-  background-color: #28a745; /* Green color for "Add" */
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.add-to-deck-button:hover {
-  background-color: #218838; /* Darker green on hover */
-}
+	margin-top: 10px;
+	padding: 8px 12px;
+	background-color: #28a745;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 14px;
+  }
+  
+  .add-to-deck-button:disabled {
+	background-color: #ccc;
+	cursor: not-allowed;
+  }
+  
+  .add-to-deck-button:hover:not(:disabled) {
+	background-color: #218838; /* Darker green on hover */
+  }
 
 
 .deck-cards {

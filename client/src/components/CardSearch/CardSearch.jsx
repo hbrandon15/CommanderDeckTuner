@@ -61,6 +61,30 @@ const CardSearch = () => {
     }
   };
 
+  const handleAddToDeck = async (card) => {
+    if (!selectedDeck) {
+      alert("Please select a deck first!");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `http://localhost:5001/api/decks/${selectedDeck}/cards`,
+        {
+          name: card.name,
+          manaCost: card.mana_cost,
+          type: card.type_line,
+        }
+      );
+
+      console.log("Card added to deck:", response.data); // Debug log
+      alert(`Card "${card.name}" added to the deck!`);
+    } catch (error) {
+      console.error("Error adding card to deck:", error);
+      alert("Failed to add card to the deck. Please try again.");
+    }
+  };
+
   return loading ? (
     <p>Loading...</p>
   ) : (
@@ -147,6 +171,13 @@ const CardSearch = () => {
             <p>
               <strong>Set:</strong> {card.set_name}
             </p>
+            <button
+              className="add-to-deck-button"
+              onClick={() => handleAddToDeck(card)}
+              disabled={!selectedDeck} // Disable if no deck is selected
+            >
+              Add to Deck
+            </button>
           </div>
         ))}
       </div>
