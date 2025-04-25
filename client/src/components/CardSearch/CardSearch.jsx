@@ -68,6 +68,8 @@ const CardSearch = () => {
     }
 
     try {
+      console.log("Adding card to deck:", selectedDeck, card); // Debug log
+
       const response = await axios.post(
         `http://localhost:5001/api/decks/${selectedDeck}/cards`,
         {
@@ -80,7 +82,7 @@ const CardSearch = () => {
       console.log("Card added to deck:", response.data); // Debug log
       alert(`Card "${card.name}" added to the deck!`);
     } catch (error) {
-      console.error("Error adding card to deck:", error);
+      console.error("Error adding card to deck:", error); // Debug log
       alert("Failed to add card to the deck. Please try again.");
     }
   };

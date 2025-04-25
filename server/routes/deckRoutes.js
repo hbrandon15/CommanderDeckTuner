@@ -59,6 +59,8 @@ router.post("/:id/cards", async (req, res) => {
   const { name, manaCost, type } = req.body; // Card details from the request body
 
   try {
+    console.log("Adding card to deck:", id, req.body); // Debug log
+
     // Find the deck by ID and add the card to the "cards" array
     const updatedDeck = await Deck.findByIdAndUpdate(
       id,
@@ -67,11 +69,14 @@ router.post("/:id/cards", async (req, res) => {
     );
 
     if (!updatedDeck) {
+      console.error("Deck not found:", id); // Debug log
       return res.status(404).json({ message: "Deck not found" });
     }
 
+    console.log("Card added successfully:", updatedDeck); // Debug log
     res.status(200).json(updatedDeck); // Return the updated deck
   } catch (error) {
+    console.error("Error adding card to deck:", error); // Debug log
     res.status(500).json({ message: error.message });
   }
 });
