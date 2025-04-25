@@ -13,6 +13,7 @@ router.post("/", async (req, res) => {
   try {
     const newDeck = new Deck({ deckName, cards });
     await newDeck.save();
+	console.log("New deck saved:", newDeck); // Debug log
     res.status(201).json(newDeck);
   } catch (error) {
     res.status(500).json({ message: error.message });
