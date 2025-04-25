@@ -5,11 +5,15 @@ const router = express.Router();
 
 // Create a new deck
 router.post("/", async (req, res) => {
+  console.log("Request headers:", req.headers); // Debug log for headers
+  console.log("Request body:", req.body); // Debug log for body
+
   const { deckName, cards } = req.body;
 
   try {
     const newDeck = new Deck({ deckName, cards });
     await newDeck.save();
+	console.log("New deck saved:", newDeck); // Debug log
     res.status(201).json(newDeck);
   } catch (error) {
     res.status(500).json({ message: error.message });
