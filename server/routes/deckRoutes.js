@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
   try {
     const newDeck = new Deck({ deckName, cards });
     await newDeck.save();
-	console.log("New deck saved:", newDeck); // Debug log
+    console.log("New deck saved:", newDeck); // Debug log
     res.status(201).json(newDeck);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -48,6 +48,29 @@ router.delete("/:id", async (req, res) => {
     if (!deletedDeck)
       return res.status(404).json({ message: "Deck not found" });
     res.status(200).json({ message: "Deck deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Add a card to a deck
+router.post("/:id/cards", async (req, res) => {
+  const { id } = req.params; // Deck ID from the URL
+  const { name, manaCost, type } = req.body; // Card details from the request body
+
+  try {
+    // Find the deck by ID and add the card to the "cards" array
+    const updatedDeck = await Deck.findByIdAndUpdate(
+      id,
+      { $push: { cards: { name, manaCost, type } } }, // Add the card to the "cards" array
+      { new: true } // Return the updated deck after the update
+    );
+
+    if (!updatedDeck) {
+      return res.status(404).json({ message: "Deck not found" });
+    }
+
+    res.status(200).json(updatedDeck); // Return the updated deck
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
