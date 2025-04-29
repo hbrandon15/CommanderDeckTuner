@@ -22,7 +22,7 @@
 }
 
 .card-image {
-  width: 150px; /* Default size */
+  width: 250px; /* Increased default size */
   height: auto;
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
   cursor: pointer;
