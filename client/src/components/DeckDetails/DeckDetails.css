@@ -5,22 +5,33 @@
 .deck-details h2 {
   font-size: 24px;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .deck-details p {
   font-size: 18px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.deck-details ul {
-  list-style-type: none;
-  padding: 0;
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+  gap: 20px;
+  justify-items: center;
 }
 
-.deck-details li {
-  margin-bottom: 10px;
-  padding: 10px;
+.card-image {
+  width: 250px; /* Increased default size */
+  height: auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+  cursor: pointer;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #f9f9f9;
+}
+
+.card-image:hover {
+  transform: scale(1.2); /* Expand the card on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add a shadow effect */
+  z-index: 10; /* Ensure the hovered card appears on top */
 }
