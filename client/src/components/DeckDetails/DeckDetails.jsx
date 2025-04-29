@@ -28,9 +28,13 @@ const DeckDetails = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="error-message">{error}</p>;
 
+  // Calculate the total number of cards
+  const totalCards = deck.cards.length;
+
   return (
     <div className="deck-details">
       <h2>{deck.deckName}</h2>
+      <p>Total Cards: {totalCards}</p> {/* Display the total number of cards */}
       <h3>Cards in this Deck:</h3>
       {deck.cards.length > 0 ? (
         <ul>
