@@ -32,11 +32,16 @@ router.get("/", async (req, res) => {
 
 // Get a single deck by ID
 router.get("/:id", async (req, res) => {
+  const { id } = req.params; // Deck ID from the URL
+
   try {
-    const deck = await Deck.findById(req.params.id);
-    if (!deck) return res.status(404).json({ message: "Deck not found" });
-    res.status(200).json(deck);
+    const deck = await Deck.findById(id); // Find the deck by ID
+    if (!deck) {
+      return res.status(404).json({ message: "Deck not found" });
+    }
+    res.status(200).json(deck); // Return the deck
   } catch (error) {
+    console.error("Error fetching deck:", error);
     res.status(500).json({ message: error.message });
   }
 });

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "../NavBar/NavBar";
 import CardSearch from "../CardSearch/CardSearch";
 import Home from "../Home/Home";
+import DeckDetails from "../DeckDetails/DeckDetails";
 
 const App = () => {
   return (
