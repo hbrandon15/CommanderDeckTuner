@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { searchCards } from "../../api/scryfall"; // API function for card search
 import axios from "axios"; // For making API requests to the backend
+import { Link } from "react-router-dom";
 import "./CardSearch.css"; // Styles for the CardSearch component
 
 const CardSearch = () => {
@@ -111,7 +112,6 @@ const CardSearch = () => {
           {decks.map((deck) => (
             <div
               key={deck._id}
-              onClick={() => setSelectedDeck(deck._id)}
               style={{
                 cursor: "pointer",
                 padding: "20px",
@@ -127,6 +127,7 @@ const CardSearch = () => {
               }}
             >
               <h4>{deck.deckName}</h4>
+              <Link to={`/decks/${deck._id}`}>View Deck</Link> {/* Link to DeckDetails */}
             </div>
           ))}
         </div>

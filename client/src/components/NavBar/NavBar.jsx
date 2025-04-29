@@ -14,7 +14,7 @@ const NavBar = () => {
           <Link to="/search">Search</Link> {/* Navigate to the Search page */}
         </li>
         <li>
-          <a href="#deck">Your Deck</a> {/* This can remain as an anchor link */}
+          <Link to="/decks">Your Decks</Link> {/* Navigate to DeckList */}
         </li>
       </ul>
     </nav>

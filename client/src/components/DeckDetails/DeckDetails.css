@@ -1,0 +1,21 @@
+.deck-details {
+  padding: 20px;
+}
+
+.deck-details h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.deck-details ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.deck-details li {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
