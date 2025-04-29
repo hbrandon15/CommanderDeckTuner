@@ -58,23 +58,16 @@ const DeckDetails = () => {
     <div className="deck-details">
       <h2>{deck.deckName}</h2>
       <p>Total Cards: {totalCards}</p> {/* Display the total number of cards */}
-      <h3>Cards in this Deck:</h3>
-      {deck.cards.length > 0 ? (
-        <ul>
-          {deck.cards.map((card, index) => (
-            <li key={index} className="card-item">
-              {card.imageUrl ? (
-                <img src={card.imageUrl} alt={card.name} className="card-image" />
-              ) : (
-                <p>Image not available</p>
-              )}
-              <strong>{card.name}</strong> - {card.manaCost} ({card.type})
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No cards in this deck yet.</p>
-      )}
+      <div className="card-grid">
+        {deck.cards.map((card, index) => (
+          <img
+            key={index}
+            src={card.imageUrl}
+            alt={card.name}
+            className="card-image"
+          />
+        ))}
+      </div>
     </div>
   );
 };
