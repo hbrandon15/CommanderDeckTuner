@@ -23,9 +23,10 @@ router.post("/", async (req, res) => {
 // Get all decks
 router.get("/", async (req, res) => {
   try {
-    const decks = await Deck.find();
+    const decks = await Deck.find({}, "deckName"); // Fetch only the deck names
     res.status(200).json(decks);
   } catch (error) {
+    console.error("Error fetching decks:", error);
     res.status(500).json({ message: error.message });
   }
 });
