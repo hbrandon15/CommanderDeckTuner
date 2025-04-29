@@ -9,11 +9,34 @@ const DeckDetails = () => {
   const [loading, setLoading] = useState(true); // State for loading
   const [error, setError] = useState(null); // State for errors
 
+  // Function to fetch card image from Scryfall
+  const fetchCardImage = async (cardName) => {
+    try {
+      const response = await axios.get(
+        `https://api.scryfall.com/cards/named?exact=${encodeURIComponent(cardName)}`
+      );
+      return response.data.image_uris.normal; // Return the normal image URL
+    } catch (error) {
+      console.error(`Error fetching image for card "${cardName}":`, error);
+      return null; // Return null if the image can't be fetched
+    }
+  };
+
   useEffect(() => {
     const fetchDeck = async () => {
       try {
         const response = await axios.get(`http://localhost:5001/api/decks/${id}`);
-        setDeck(response.data); // Set the deck data
+        const deckData = response.data;
+
+        // Fetch images for all cards in the deck
+        const updatedCards = await Promise.all(
+          deckData.cards.map(async (card) => {
+            const imageUrl = await fetchCardImage(card.name); // Fetch image from Scryfall
+            return { ...card, imageUrl }; // Add the image URL to the card
+          })
+        );
+
+        setDeck({ ...deckData, cards: updatedCards }); // Update the deck with image URLs
       } catch (error) {
         console.error("Error fetching deck:", error);
         setError("Failed to load the deck. Please try again.");
@@ -39,7 +62,12 @@ const DeckDetails = () => {
       {deck.cards.length > 0 ? (
         <ul>
           {deck.cards.map((card, index) => (
-            <li key={index}>
+            <li key={index} className="card-item">
+              {card.imageUrl ? (
+                <img src={card.imageUrl} alt={card.name} className="card-image" />
+              ) : (
+                <p>Image not available</p>
+              )}
               <strong>{card.name}</strong> - {card.manaCost} ({card.type})
             </li>
           ))}
