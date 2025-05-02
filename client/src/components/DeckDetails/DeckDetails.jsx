@@ -48,6 +48,18 @@ const DeckDetails = () => {
     fetchDeck();
   }, [id]);
 
+  const handleRemoveCard = async (cardName) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:5001/api/decks/${id}/cards/${encodeURIComponent(cardName)}`
+      );
+      setDeck(response.data); // Update the deck state with the updated deck
+    } catch (error) {
+      console.error("Error removing card:", error);
+      alert("Failed to remove the card. Please try again.");
+    }
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="error-message">{error}</p>;
 
@@ -60,12 +72,15 @@ const DeckDetails = () => {
       <p>Total Cards: {totalCards}</p> {/* Display the total number of cards */}
       <div className="card-grid">
         {deck.cards.map((card, index) => (
-          <img
-            key={index}
-            src={card.imageUrl}
-            alt={card.name}
-            className="card-image"
-          />
+          <div key={index} className="card-item">
+            <img src={card.imageUrl} alt={card.name} className="card-image" />
+            <button
+              className="remove-card-button"
+              onClick={() => handleRemoveCard(card.name)}
+            >
+              Remove
+            </button>
+          </div>
         ))}
       </div>
     </div>
