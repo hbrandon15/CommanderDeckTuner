@@ -87,4 +87,26 @@ router.post("/:id/cards", async (req, res) => {
   }
 });
 
+// Remove a card from a deck
+router.delete("/:id/cards/:cardName", async (req, res) => {
+  const { id, cardName } = req.params; // Deck ID and card name from the URL
+
+  try {
+    const updatedDeck = await Deck.findByIdAndUpdate(
+      id,
+      { $pull: { cards: { name: cardName } } }, // Remove the card by name
+      { new: true } // Return the updated deck
+    );
+
+    if (!updatedDeck) {
+      return res.status(404).json({ message: "Deck not found" });
+    }
+
+    res.status(200).json(updatedDeck); // Return the updated deck
+  } catch (error) {
+    console.error("Error removing card:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
