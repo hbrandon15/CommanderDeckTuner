@@ -29,7 +29,7 @@ const DeckList = () => {
 
   return (
     <div className="deck-list">
-      <h2>Your Decks</h2>
+      <h2 className="deck-list-title">Your Decks</h2> {/* Title header */}
       {decks.length > 0 ? (
         <ul>
           {decks.map((deck) => (

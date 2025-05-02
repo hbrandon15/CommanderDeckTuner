@@ -2,9 +2,10 @@
   padding: 20px;
 }
 
-.deck-list h2 {
+.deck-list-title {
   font-size: 24px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  text-align: center; /* Center the title */
 }
 
 .deck-list ul {

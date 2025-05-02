@@ -132,6 +132,7 @@
 
 .deck-cards {
 	margin: 20px 0;
+  margin-top: 20px;
   }
   
   .deck-cards div {
@@ -142,3 +143,30 @@
 	transform: scale(1.05);
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
+
+.deck-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.deck-item {
+  cursor: pointer;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  text-align: center;
+  width: 150px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.deck-item:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.selected-deck {
+  background-color: #d3f9d8;
+  box-shadow: 0 0 10px rgba(0, 128, 0, 0.5);
+}
