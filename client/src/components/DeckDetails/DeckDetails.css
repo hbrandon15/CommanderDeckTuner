@@ -16,14 +16,25 @@
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(150px, 1fr)
+  ); /* Responsive grid */
   gap: 20px;
   justify-items: center;
+}
+
+.card-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .card-image {
   width: 250px; /* Increased default size */
   height: auto;
+  margin-bottom: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
   cursor: pointer;
   border: 1px solid #ccc;
@@ -34,4 +45,18 @@
   transform: scale(1.2); /* Expand the card on hover */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add a shadow effect */
   z-index: 10; /* Ensure the hovered card appears on top */
+}
+
+.remove-card-button {
+  padding: 5px 10px;
+  background-color: #dc3545; /* Red color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.remove-card-button:hover {
+  background-color: #c82333; /* Darker red on hover */
 }
