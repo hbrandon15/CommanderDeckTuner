@@ -108,26 +108,17 @@ const CardSearch = () => {
       {/* Deck selection cards */}
       <div className="deck-cards">
         <h3>Select a Deck</h3>
-        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+        <div className="deck-list">
           {decks.map((deck) => (
             <div
               key={deck._id}
-              style={{
-                cursor: "pointer",
-                padding: "20px",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-                backgroundColor: selectedDeck === deck._id ? "#d3f9d8" : "white",
-                textAlign: "center",
-                width: "150px",
-                boxShadow:
-                  selectedDeck === deck._id
-                    ? "0 0 10px rgba(0, 128, 0, 0.5)"
-                    : "0 0 5px rgba(0, 0, 0, 0.1)",
-              }}
+              className={`deck-item ${
+                selectedDeck === deck._id ? "selected-deck" : ""
+              }`}
+              onClick={() => setSelectedDeck(deck._id)} // Set the selected deck
             >
               <h4>{deck.deckName}</h4>
-              <Link to={`/decks/${deck._id}`}>View Deck</Link> {/* Link to DeckDetails */}
+              <Link to={`/decks/${deck._id}`}>View Deck</Link>
             </div>
           ))}
         </div>
