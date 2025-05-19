@@ -48,6 +48,8 @@ router.get("/:id", async (req, res) => {
 });
 
 // Delete a deck by ID
+// This route will delete a specific deck by its ID
+// It will remove the deck from the database
 router.delete("/:id", async (req, res) => {
   try {
     const deletedDeck = await Deck.findByIdAndDelete(req.params.id);
@@ -56,6 +58,20 @@ router.delete("/:id", async (req, res) => {
     res.status(200).json({ message: "Deck deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+// Clear all cards from a deck
+// This route will remove all cards from a specific deck
+router.delete("/:id/cards", async (req, res) => {
+  try {
+    const deck = await Deck.findById(req.params.id);
+    if (!deck) return res.status(404).json({ message: "Deck not found" });
+    deck.cards = [];
+    await deck.save();
+    res.status(200).json(deck);
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
   }
 });
 
