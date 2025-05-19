@@ -48,6 +48,8 @@ const DeckDetails = () => {
     fetchDeck();
   }, [id]);
 
+  // Function to handle removing a card from the deck
+  // This function will be called when the user clicks the "Remove" button
   const handleRemoveCard = async (cardName) => {
     try {
       const response = await axios.delete(
@@ -59,6 +61,17 @@ const DeckDetails = () => {
       alert("Failed to remove the card. Please try again.");
     }
   };
+// Function to handle clearing the entire deck
+// This function will be called when the user clicks the "Clear Deck" button
+  const handleClearDeck = async () => {
+  try {
+    const response = await axios.delete(`http://localhost:5001/api/decks/${id}/cards`);
+    setDeck(response.data); // Update the deck state with the cleared deck
+  } catch (error) {
+    console.error("Error clearing deck:", error);
+    alert("Failed to clear the deck. Please try again.");
+  }
+};
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="error-message">{error}</p>;
@@ -70,6 +83,9 @@ const DeckDetails = () => {
     <div className="deck-details">
       <h2>{deck.deckName}</h2>
       <p>Total Cards: {totalCards}</p> {/* Display the total number of cards */}
+	  <button className="clear-deck-button" onClick={handleClearDeck}>
+      Clear Deck
+    </button>
       <div className="card-grid">
         {deck.cards.map((card, index) => (
           <div key={index} className="card-item">
