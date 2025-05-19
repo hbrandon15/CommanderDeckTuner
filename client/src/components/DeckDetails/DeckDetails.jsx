@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom"; // To get the deck ID from the URL
 import axios from "axios";
 import "./DeckDetails.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DeckDetails = () => {
   const { id } = useParams(); // Get the deck ID from the URL
@@ -13,7 +15,9 @@ const DeckDetails = () => {
   const fetchCardImage = async (cardName) => {
     try {
       const response = await axios.get(
-        `https://api.scryfall.com/cards/named?exact=${encodeURIComponent(cardName)}`
+        `https://api.scryfall.com/cards/named?exact=${encodeURIComponent(
+          cardName
+        )}`
       );
       return response.data.image_uris.normal; // Return the normal image URL
     } catch (error) {
@@ -25,7 +29,9 @@ const DeckDetails = () => {
   useEffect(() => {
     const fetchDeck = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/decks/${id}`);
+        const response = await axios.get(
+          `http://localhost:5001/api/decks/${id}`
+        );
         const deckData = response.data;
 
         // Fetch images for all cards in the deck
@@ -53,25 +59,38 @@ const DeckDetails = () => {
   const handleRemoveCard = async (cardName) => {
     try {
       const response = await axios.delete(
-        `http://localhost:5001/api/decks/${id}/cards/${encodeURIComponent(cardName)}`
+        `http://localhost:5001/api/decks/${id}/cards/${encodeURIComponent(
+          cardName
+        )}`
       );
       setDeck(response.data); // Update the deck state with the updated deck
+      toast.success("Card removed from the deck.");
     } catch (error) {
       console.error("Error removing card:", error);
-      alert("Failed to remove the card. Please try again.");
+      toast.error("Failed to remove the card. Please try again.");
     }
   };
-// Function to handle clearing the entire deck
-// This function will be called when the user clicks the "Clear Deck" button
+
+  // Function to handle clearing the entire deck
+  // This function will be called when the user clicks the "Clear Deck" button
   const handleClearDeck = async () => {
-  try {
-    const response = await axios.delete(`http://localhost:5001/api/decks/${id}/cards`);
-    setDeck(response.data); // Update the deck state with the cleared deck
-  } catch (error) {
-    console.error("Error clearing deck:", error);
-    alert("Failed to clear the deck. Please try again.");
-  }
-};
+    if (
+      !window.confirm(
+        "Are you sure you want to clear all cards from this deck?"
+      )
+    )
+      return;
+    try {
+      const response = await axios.delete(
+        `http://localhost:5001/api/decks/${id}/cards`
+      );
+      setDeck(response.data); // Update the deck state with the cleared deck
+      toast.success("All cards have been cleared from the deck.");
+    } catch (error) {
+      console.error("Error clearing deck:", error);
+      toast.error("Failed to clear the deck. Please try again.");
+    }
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="error-message">{error}</p>;
@@ -82,10 +101,11 @@ const DeckDetails = () => {
   return (
     <div className="deck-details">
       <h2>{deck.deckName}</h2>
-      <p>Total Cards: {totalCards}</p> {/* Display the total number of cards */}
-	  <button className="clear-deck-button" onClick={handleClearDeck}>
-      Clear Deck
-    </button>
+      <p>Total Cards: {totalCards}</p>
+      <button className="clear-deck-button" onClick={handleClearDeck}>
+        Clear Deck
+      </button>
+      <ToastContainer />
       <div className="card-grid">
         {deck.cards.map((card, index) => (
           <div key={index} className="card-item">
