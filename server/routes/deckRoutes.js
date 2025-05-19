@@ -63,15 +63,15 @@ router.delete("/:id", async (req, res) => {
 
 // Clear all cards from a deck
 // This route will remove all cards from a specific deck
-router.delete('/decks/:id/cards', async (req, res) => {
+router.delete("/:id/cards", async (req, res) => {
   try {
     const deck = await Deck.findById(req.params.id);
-    if (!deck) return res.status(404).send('Deck not found');
+    if (!deck) return res.status(404).json({ message: "Deck not found" });
     deck.cards = [];
     await deck.save();
-    res.json(deck);
+    res.status(200).json(deck);
   } catch (err) {
-    res.status(500).send('Server error');
+    res.status(500).json({ message: "Server error" });
   }
 });
 
