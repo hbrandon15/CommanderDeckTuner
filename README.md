@@ -1,49 +1,103 @@
 # Commander Deck Tuner
 
-Commander Deck Tuner is a tool designed to help Magic: The Gathering players optimize and manage their Commander decks.
+Commander Deck Tuner is a full-stack web application designed to help Magic: The Gathering players optimize, manage, and analyze their Commander (EDH) decks. The app provides deck statistics, card suggestions, and easy deck editing features.
+
+---
 
 ## Features
 
-- Analyze deck composition.
-- Suggest card replacements.
-- Provide statistics and insights.
+- **Deck Management:** Create, view, edit, and delete Commander decks.
+- **Card Management:** Add, remove, and clear cards from your decks.
+- **Card Images:** Automatically fetches card images from Scryfall.
+- **Deck Analysis:** View deck composition and statistics.
+- **User-Friendly UI:** Modern interface with notifications and confirmation dialogs.
+- **REST API:** Backend built with Node.js and Express, using MongoDB for storage.
+
+---
 
 ## Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/CommanderDeckTuner.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd CommanderDeckTuner
-   ```
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/yourusername/CommanderDeckTuner.git
+```
+
+### 2. Navigate to the project directory
+
+```bash
+cd CommanderDeckTuner
+```
+
+### 3. Install server dependencies
+
+```bash
+cd server
+npm install
+```
+
+### 4. Install client dependencies
+
+```bash
+cd ../client
+npm install
+```
+
+---
 
 ## Usage
 
-Run the application:
+### 1. Start the backend server
 
 ```bash
-npm start
+cd server
+node server.js
 ```
+
+By default, the backend runs on [http://localhost:5001](http://localhost:5001).
+
+### 2. Start the frontend client
+
+```bash
+cd ../client
+npm run dev
+```
+
+The frontend runs on [http://localhost:5173](http://localhost:5173).
+
+---
+
+## Technologies Used
+
+- **Frontend:** React, Vite, Axios, React Toastify
+- **Backend:** Node.js, Express, MongoDB, Mongoose
+- **APIs:** Scryfall (for card data and images)
+
+---
+
+## Development
+
+- **Testing:**
+
+  - Client: Jest, React Testing Library
+  - Server: Jest, Supertest
+
+- **Code Quality:**
+  - ESLint, Prettier
+
+---
 
 ## License
 
 This project is licensed under the MIT License.
 
-# React + Vite
+---
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Acknowledgments
 
-Currently, two official plugins are available:
+- [Scryfall](https://scryfall.com/) for card data and images.
+- [React Toastify](https://fkhadra.github.io/react-toastify/) for notifications.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
