@@ -12,6 +12,7 @@ Commander Deck Tuner is a full-stack web application designed to help Magic: The
 - **Deck Analysis:** View deck composition and statistics.
 - **User-Friendly UI:** Modern interface with notifications and confirmation dialogs.
 - **REST API:** Backend built with Node.js and Express, using MongoDB for storage.
+- **Dockerized:** Easily run the entire stack (client, server, database) in containers.
 
 ---
 
@@ -72,6 +73,7 @@ The frontend runs on [http://localhost:5173](http://localhost:5173).
 - **Frontend:** React, Vite, Axios, React Toastify
 - **Backend:** Node.js, Express, MongoDB, Mongoose
 - **APIs:** Scryfall (for card data and images)
+- **Containerization:** Docker, Docker Compose
 
 ---
 
