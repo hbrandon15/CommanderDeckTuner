@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 });
 
 // Connect to MongoDB
-const CONNECTION_URL = process.env.MONGO_URI; // Get the connection string from .env
+const CONNECTION_URL = process.env.MONGO_URI || "mongodb://localhost:27017/commander_decks"; // Use Docker or local
 mongoose
   .connect(CONNECTION_URL)
   .then(() => console.log("Connected to MongoDB Atlas"))
