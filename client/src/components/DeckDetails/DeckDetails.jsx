@@ -110,6 +110,12 @@ const DeckDetails = () => {
         {deck.cards.map((card, index) => (
           <div key={index} className="card-item">
             <img src={card.imageUrl} alt={card.name} className="card-image" />
+			 <div className="card-info">
+      <span>{card.name} </span>
+      {card.price_usd && (
+        <span className="card-price">${card.price_usd}</span>
+      )}
+    </div>
             <button
               className="remove-card-button"
               onClick={() => handleRemoveCard(card.name)}
