@@ -16,10 +16,14 @@ def get_card_price(card_name):
 
 
 for deck in decks.find():
+    print(f"Updating deck: {deck.get('deckName', deck['_id'])}")
     updated_cards = []
     for card in deck.get("cards", []):
         price = get_card_price(card["name"])
         card["price_usd"] = price
         updated_cards.append(card)
+        print(f"  {card['name']}: ${price}")
     decks.update_one({"_id": deck["_id"]}, {"$set": {"cards": updated_cards}})
-    print(f"Updated deck {deck['deckName']}")
+    print(f"Finished updating deck: {deck.get('deckName', deck['_id'])}")
+
+print("Done updating card prices.")
