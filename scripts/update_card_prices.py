@@ -9,6 +9,7 @@ mongo_uri = os.getenv("MONGO_URI")
 
 client = MongoClient(mongo_uri)
 db = client["CommanderDeckTuner"]
+decks = db.decks
 
 
 def get_card_price(card_name):
