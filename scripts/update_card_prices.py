@@ -1,9 +1,14 @@
 from pymongo import MongoClient
+from dotenv import load_dotenv
+import os
 import requests
 
-client = MongoClient("mongodb://localhost:27017/")
-db = client["commander_decks"]
-decks = db.decks
+
+load_dotenv()  # Loads variables from .env into environment
+mongo_uri = os.getenv("MONGO_URI")
+
+client = MongoClient(mongo_uri)
+db = client["CommanderDeckTuner"]
 
 
 def get_card_price(card_name):
