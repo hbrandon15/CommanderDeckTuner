@@ -16,7 +16,7 @@ Commander Deck Tuner is a full-stack web application designed to help Magic: The
 
 ---
 
-## Installation
+## Installation (Manual)
 
 ### 1. Clone the repository
 
@@ -46,7 +46,7 @@ npm install
 
 ---
 
-## Usage
+## Usage (Manual)
 
 ### 1. Start the backend server
 
@@ -68,6 +68,48 @@ The frontend runs on [http://localhost:5173](http://localhost:5173).
 
 ---
 
+## Docker Instructions
+
+You can run the entire stack (client, server, and MongoDB) using Docker and Docker Compose.
+
+### 1. Build and Start All Containers
+
+From the project root (where `docker-compose.yml` is located):
+
+```bash
+docker-compose up --build
+```
+
+- This will build and start the client, server, and MongoDB containers.
+- The client will be available at [http://localhost:5173](http://localhost:5173).
+- The server API will be available at [http://localhost:5001](http://localhost:5001).
+
+### 2. Run in the Background
+
+```bash
+docker-compose up -d
+```
+
+### 3. View Logs
+
+```bash
+docker-compose logs -f
+```
+
+### 4. Stop and Remove Containers
+
+```bash
+docker-compose down
+```
+
+### 5. Remove Containers and Volumes (including database data)
+
+```bash
+docker-compose down -v
+```
+
+---
+
 ## Technologies Used
 
 - **Frontend:** React, Vite, Axios, React Toastify
@@ -80,7 +122,6 @@ The frontend runs on [http://localhost:5173](http://localhost:5173).
 ## Development
 
 - **Testing:**
-
   - Client: Jest, React Testing Library
   - Server: Jest, Supertest
 
