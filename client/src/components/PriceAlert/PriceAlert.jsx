@@ -8,28 +8,51 @@ const PriceAlert = ({ deckId, cardName, currentAlert, onAlertUpdated }) => {
   const [enabled, setEnabled] = useState(currentAlert?.enabled || false);
   const [targetPrice, setTargetPrice] = useState(currentAlert?.targetPrice || '');
   const [condition, setCondition] = useState(currentAlert?.condition || 'above');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);  const handleSave = async () => {
+    // Validate inputs
+    if (enabled && (!targetPrice || isNaN(targetPrice) || parseFloat(targetPrice) <= 0)) {
+      toast.error('Please enter a valid target price');
+      return;
+    }
 
-  const handleSave = async () => {
     setLoading(true);
+    console.log('=== PRICE ALERT CLIENT REQUEST ===');
+    console.log('Original cardName:', cardName);
+    console.log('Encoded cardName:', encodeURIComponent(cardName));
+    console.log('DeckId:', deckId);
+    console.log('Request params:', { enabled, targetPrice, condition });
+    
     try {
-      const response = await axios.put(
-        `http://localhost:5001/api/decks/${deckId}/cards/${encodeURIComponent(cardName)}/alert`,
-        {
-          enabled,
-          targetPrice: enabled ? parseFloat(targetPrice) : null,
-          condition
-        }
-      );
+      const requestData = {
+        enabled,
+        targetPrice: enabled ? parseFloat(targetPrice) : null,
+        condition
+      };
       
+      const url = `http://localhost:5001/api/decks/${deckId}/cards/${encodeURIComponent(cardName)}/alert`;
+      console.log('Full URL:', url);
+      console.log('Request data:', requestData);
+      
+      const response = await axios.put(url, requestData);
+      
+      console.log('✅ Response:', response.data);
       toast.success('Price alert updated successfully!');
       setIsOpen(false);
       if (onAlertUpdated) {
         onAlertUpdated(response.data);
       }
     } catch (error) {
-      console.error('Error updating price alert:', error);
-      toast.error('Failed to update price alert');
+      console.error('❌ Error updating price alert:', error);
+      console.error('Error response:', error.response?.data);
+      const errorMessage = error.response?.data?.message || error.message || 'Unknown error';
+      
+      // Show detailed error for debugging
+      if (error.response?.data?.availableCards) {
+        console.log('Available cards in deck:', error.response.data.availableCards);
+        console.log('Searched for:', error.response.data.searchedFor);
+      }
+      
+      toast.error(`Failed to update price alert: ${errorMessage}`);
     } finally {
       setLoading(false);
     }

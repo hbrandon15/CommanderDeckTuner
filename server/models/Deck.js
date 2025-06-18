@@ -26,7 +26,7 @@ const deckSchema = new mongoose.Schema({
       type: { type: String, enum: ['price_alert'], default: 'price_alert' }
     }
   ]
-});
+}, { strict: false }); // Allow flexible schema
 
 // Create the Deck model
 const Deck = mongoose.model("Deck", deckSchema);
