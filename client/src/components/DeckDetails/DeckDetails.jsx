@@ -10,7 +10,6 @@ const DeckDetails = () => {
   const [deck, setDeck] = useState(null); // State to store the deck
   const [loading, setLoading] = useState(true); // State for loading
   const [error, setError] = useState(null); // State for errors
-
   // Function to fetch card image from Scryfall
   const fetchCardImage = async (cardName) => {
     try {
@@ -24,6 +23,12 @@ const DeckDetails = () => {
       console.error(`Error fetching image for card "${cardName}":`, error);
       return null; // Return null if the image can't be fetched
     }
+  };
+
+  // Function to generate TCGPlayer URL for a card
+  const generateTCGPlayerURL = (cardName) => {
+    const encodedCardName = encodeURIComponent(cardName);
+    return `https://www.tcgplayer.com/search/magic/product?q=${encodedCardName}&view=grid`;
   };
 
   useEffect(() => {
@@ -109,11 +114,17 @@ const DeckDetails = () => {
       <div className="card-grid">
         {deck.cards.map((card, index) => (
           <div key={index} className="card-item">
-            <img src={card.imageUrl} alt={card.name} className="card-image" />
-			 <div className="card-info">
+            <img src={card.imageUrl} alt={card.name} className="card-image" />			 <div className="card-info">
       <span>{card.name} </span>
       {card.price_usd && (
-        <span className="card-price">${card.price_usd}</span>
+        <a 
+          href={generateTCGPlayerURL(card.name)} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="card-price-link"
+        >
+          <span className="card-price">${card.price_usd}</span>
+        </a>
       )}
     </div>
             <button
