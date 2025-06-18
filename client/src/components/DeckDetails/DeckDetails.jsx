@@ -4,13 +4,14 @@ import axios from "axios";
 import "./DeckDetails.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PriceAlert from "../PriceAlert/PriceAlert";
+import Notifications from "../Notifications/Notifications";
 
 const DeckDetails = () => {
   const { id } = useParams(); // Get the deck ID from the URL
   const [deck, setDeck] = useState(null); // State to store the deck
   const [loading, setLoading] = useState(true); // State for loading
   const [error, setError] = useState(null); // State for errors
-
   // Function to fetch card image from Scryfall
   const fetchCardImage = async (cardName) => {
     try {
@@ -24,6 +25,12 @@ const DeckDetails = () => {
       console.error(`Error fetching image for card "${cardName}":`, error);
       return null; // Return null if the image can't be fetched
     }
+  };
+
+  // Function to generate TCGPlayer URL for a card
+  const generateTCGPlayerURL = (cardName) => {
+    const encodedCardName = encodeURIComponent(cardName);
+    return `https://www.tcgplayer.com/search/magic/product?q=${encodedCardName}&view=grid`;
   };
 
   useEffect(() => {
@@ -97,25 +104,41 @@ const DeckDetails = () => {
 
   // Calculate the total number of cards
   const totalCards = deck.cards.length;
-
   return (
     <div className="deck-details">
-      <h2>{deck.deckName}</h2>
+      <div className="deck-header">
+        <h2>{deck.deckName}</h2>
+        <Notifications deckId={id} />
+      </div>
       <p>Total Cards: {totalCards}</p>
       <button className="clear-deck-button" onClick={handleClearDeck}>
         Clear Deck
       </button>
       <ToastContainer />
-      <div className="card-grid">
-        {deck.cards.map((card, index) => (
+      <div className="card-grid">        {deck.cards.map((card, index) => (
           <div key={index} className="card-item">
             <img src={card.imageUrl} alt={card.name} className="card-image" />
-			 <div className="card-info">
-      <span>{card.name} </span>
-      {card.price_usd && (
-        <span className="card-price">${card.price_usd}</span>
-      )}
-    </div>
+            <div className="card-info">
+              <span>{card.name} </span>
+              <div className="card-price-container">
+                {card.price_usd && (
+                  <a 
+                    href={generateTCGPlayerURL(card.name)} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="card-price-link"
+                  >
+                    <span className="card-price">${card.price_usd}</span>
+                  </a>
+                )}
+                <PriceAlert
+                  deckId={id}
+                  cardName={card.name}
+                  currentAlert={card.priceAlert}
+                  onAlertUpdated={(updatedDeck) => setDeck(updatedDeck)}
+                />
+              </div>
+            </div>
             <button
               className="remove-card-button"
               onClick={() => handleRemoveCard(card.name)}
