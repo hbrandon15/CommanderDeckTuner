@@ -125,4 +125,96 @@ router.delete("/:id/cards/:cardName", async (req, res) => {
   }
 });
 
+// Set price alert for a card
+router.put("/:id/cards/:cardName/alert", async (req, res) => {
+  const { id, cardName } = req.params;
+  const { enabled, targetPrice, condition } = req.body;
+
+  try {
+    const deck = await Deck.findById(id);
+    if (!deck) {
+      return res.status(404).json({ message: "Deck not found" });
+    }
+
+    const card = deck.cards.find(c => c.name === cardName);
+    if (!card) {
+      return res.status(404).json({ message: "Card not found in deck" });
+    }
+
+    card.priceAlert = {
+      enabled: enabled || false,
+      targetPrice: targetPrice || null,
+      condition: condition || 'above',
+      lastTriggered: card.priceAlert?.lastTriggered || null
+    };
+
+    await deck.save();
+    res.status(200).json(deck);
+  } catch (error) {
+    console.error("Error setting price alert:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Get notifications for a deck
+router.get("/:id/notifications", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deck = await Deck.findById(id);
+    if (!deck) {
+      return res.status(404).json({ message: "Deck not found" });
+    }
+
+    res.status(200).json(deck.notifications || []);
+  } catch (error) {
+    console.error("Error fetching notifications:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Mark notification as read
+router.put("/:id/notifications/:notificationIndex/read", async (req, res) => {
+  const { id, notificationIndex } = req.params;
+
+  try {
+    const deck = await Deck.findById(id);
+    if (!deck) {
+      return res.status(404).json({ message: "Deck not found" });
+    }
+
+    if (deck.notifications && deck.notifications[notificationIndex]) {
+      deck.notifications[notificationIndex].read = true;
+      await deck.save();
+    }
+
+    res.status(200).json(deck.notifications || []);
+  } catch (error) {
+    console.error("Error marking notification as read:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Clear all notifications for a deck
+router.delete("/:id/notifications", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const updatedDeck = await Deck.findByIdAndUpdate(
+      id,
+      { $set: { notifications: [] } },
+      { new: true }
+    );
+
+    if (!updatedDeck) {
+      return res.status(404).json({ message: "Deck not found" });
+    }
+
+    res.status(200).json({ message: "All notifications cleared" });
+  } catch (error) {
+    console.error("Error clearing notifications:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
