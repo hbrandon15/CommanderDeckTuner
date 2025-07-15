@@ -1,0 +1,278 @@
+.price-alerts-page {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.page-header h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.page-description {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 0;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  padding: 40px;
+}
+
+.error-message {
+  text-align: center;
+  color: #dc3545;
+  padding: 20px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.no-alerts {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  border: 2px dashed #dee2e6;
+}
+
+.no-alerts h3 {
+  color: #6c757d;
+  margin-bottom: 15px;
+}
+
+.no-alerts p {
+  color: #6c757d;
+  margin-bottom: 25px;
+  font-size: 1.1rem;
+}
+
+.link-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.link-button:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+.alerts-container {
+  margin-top: 20px;
+}
+
+.alerts-summary {
+  margin-bottom: 25px;
+  padding: 15px;
+  background-color: #e9ecef;
+  border-radius: 8px;
+}
+
+.alerts-summary h3 {
+  margin: 0;
+  color: #495057;
+  font-size: 1.3rem;
+}
+
+.alerts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.alert-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.alert-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.alert-card.triggered {
+  border-color: #dc3545;
+  background-color: #fff5f5;
+}
+
+.alert-card.waiting {
+  border-color: #ffc107;
+  background-color: #fffdf5;
+}
+
+.card-image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.card-image {
+  width: 180px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.card-image:hover {
+  transform: scale(1.05);
+}
+
+.image-placeholder {
+  width: 180px;
+  height: 250px;
+  background-color: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.card-details {
+  text-align: center;
+}
+
+.card-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.deck-name {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 15px;
+}
+
+.deck-name a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.deck-name a:hover {
+  text-decoration: underline;
+}
+
+.price-info {
+  margin-bottom: 15px;
+}
+
+.current-price {
+  margin-bottom: 8px;
+}
+
+.price-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.price-link:hover {
+  text-decoration: underline;
+}
+
+.price {
+  background-color: #ffe066;
+  color: #333;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  margin-left: 4px;
+}
+
+.price-unavailable {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.alert-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.alert-condition {
+  font-size: 0.9rem;
+  color: #495057;
+  font-weight: 500;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.triggered {
+  background-color: #dc3545;
+  color: white;
+}
+
+.status-badge.waiting {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.alert-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .alerts-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .price-alerts-page {
+    padding: 15px;
+  }
+  
+  .page-header h1 {
+    font-size: 2rem;
+  }
+  
+  .alert-card {
+    padding: 15px;
+  }
+  
+  .card-image {
+    width: 150px;
+  }
+  
+  .image-placeholder {
+    width: 150px;
+    height: 210px;
+  }
+}

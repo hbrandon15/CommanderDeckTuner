@@ -5,6 +5,7 @@ import CardSearch from "../CardSearch/CardSearch";
 import Home from "../Home/Home";
 import DeckDetails from "../DeckDetails/DeckDetails";
 import DeckList from "../DeckList/DeckList"; // Import DeckList
+import PriceAlertsPage from "../PriceAlertsPage/PriceAlertsPage"; // Import PriceAlertsPage
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/search" element={<CardSearch />} /> {/* Search page */}
         <Route path="/decks" element={<DeckList />} /> {/* Deck List */}
         <Route path="/decks/:id" element={<DeckDetails />} /> {/* Deck Details */}
+        <Route path="/price-alerts" element={<PriceAlertsPage />} /> {/* Price Alerts Page */}
       </Routes>
     </Router>
   );
