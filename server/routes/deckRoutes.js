@@ -254,6 +254,35 @@ router.delete("/:id/notifications", async (req, res) => {
   }
 });
 
+// Get all cards with price alerts across all decks
+router.get("/price-alerts/all", async (req, res) => {
+  try {
+    const decks = await Deck.find({});
+    const priceAlertCards = [];
+
+    decks.forEach(deck => {
+      deck.cards.forEach(card => {
+        if (card.priceAlert && card.priceAlert.enabled) {
+          priceAlertCards.push({
+            deckId: deck._id,
+            deckName: deck.deckName,
+            cardName: card.name,
+            currentPrice: card.price_usd,
+            priceAlert: card.priceAlert,
+            manaCost: card.manaCost,
+            type: card.type
+          });
+        }
+      });
+    });
+
+    res.status(200).json(priceAlertCards);
+  } catch (error) {
+    console.error("Error fetching price alert cards:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Test route to check deck structure
 router.get("/:id/debug", async (req, res) => {
   const { id } = req.params;
