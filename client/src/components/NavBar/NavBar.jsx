@@ -16,6 +16,9 @@ const NavBar = () => {
         <li>
           <Link to="/decks">Your Decks</Link> {/* Navigate to DeckList */}
         </li>
+		 <li>
+          <Link to="/price-alerts">Price Alerts</Link> {/* Navigate to Price Alerts */}
+        </li>
       </ul>
     </nav>
   );
