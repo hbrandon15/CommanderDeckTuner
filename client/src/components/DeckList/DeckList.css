@@ -15,17 +15,74 @@
 
 .deck-list li {
   margin-bottom: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
 }
 
-.deck-list li a {
+.deck-item {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.deck-item:hover {
+  background-color: #f0f0f0;
+  border-color: #007bff;
+}
+
+.deck-main-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.deck-name {
   text-decoration: none;
   color: #007bff;
+  font-weight: bold;
+  font-size: 1.1em;
 }
 
-.deck-list li a:hover {
+.deck-name:hover {
   text-decoration: underline;
+  color: #0056b3;
+}
+
+.card-count {
+  color: #6c757d;
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.deck-commander {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #333;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  font-weight: bold;
+  border: 1px solid #FF8C00;
+  box-shadow: 0 1px 3px rgba(255, 215, 0, 0.2);
+}
+
+.commander-icon {
+  font-size: 1.1em;
+}
+
+.commander-text {
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.no-commander-text {
+  color: #6c757d;
+  font-style: italic;
+  font-size: 0.85em;
+  padding: 4px 8px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  border: 1px dashed #ced4da;
 }

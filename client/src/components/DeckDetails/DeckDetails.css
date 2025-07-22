@@ -15,10 +15,42 @@
   text-align: left;
 }
 
-.deck-details p {
-  font-size: 18px;
+.deck-info {
   margin-bottom: 20px;
-  text-align: center;
+}
+
+.deck-info p {
+  font-size: 18px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.commander-info {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #333;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 2px solid #FF8C00;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+  font-weight: bold;
+}
+
+.commander-label {
+  margin-right: 8px;
+}
+
+.commander-name {
+  font-size: 1.1em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.no-commander {
+  color: #6c757d;
+  font-style: italic;
+  background-color: #f8f9fa;
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: 2px dashed #dee2e6;
 }
 
 .card-grid {
@@ -36,6 +68,26 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-item.commander-card {
+  border: 3px solid #FFD700;
+  background: linear-gradient(135deg, #FFF9E6, #FFFACD);
+  box-shadow: 0 4px 16px rgba(255, 215, 0, 0.3);
+}
+
+.card-item.commander-card:hover {
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
 }
 
 .card-info {
@@ -44,6 +96,22 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 10px;
+  width: 100%;
+}
+
+.card-name {
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.1em;
+  color: #333;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .card-price-container {

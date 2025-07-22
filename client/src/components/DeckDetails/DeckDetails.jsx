@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PriceAlert from "../PriceAlert/PriceAlert";
 import Notifications from "../Notifications/Notifications";
+import CommanderButton from "../CommanderButton/CommanderButton";
 
 const DeckDetails = () => {
   const { id } = useParams(); // Get the deck ID from the URL
@@ -104,22 +105,37 @@ const DeckDetails = () => {
 
   // Calculate the total number of cards
   const totalCards = deck.cards.length;
+  const commander = deck.cards.find(card => card.isCommander);
+  
   return (
     <div className="deck-details">
       <div className="deck-header">
         <h2>{deck.deckName}</h2>
         <Notifications deckId={id} />
       </div>
-      <p>Total Cards: {totalCards}</p>
+      
+      <div className="deck-info">
+        <p>Total Cards: {totalCards}</p>
+        {commander && (
+          <p className="commander-info">
+            <span className="commander-label">👑 Commander:</span>
+            <span className="commander-name">{commander.name}</span>
+          </p>
+        )}
+        {!commander && (
+          <p className="no-commander">No commander selected. Click the crown button on any card to set it as your commander.</p>
+        )}
+      </div>
+      
       <button className="clear-deck-button" onClick={handleClearDeck}>
         Clear Deck
       </button>
       <ToastContainer />
       <div className="card-grid">        {deck.cards.map((card, index) => (
-          <div key={index} className="card-item">
+          <div key={index} className={`card-item ${card.isCommander ? 'commander-card' : ''}`}>
             <img src={card.imageUrl} alt={card.name} className="card-image" />
             <div className="card-info">
-              <span>{card.name} </span>
+              <span className="card-name">{card.name}</span>
               <div className="card-price-container">
                 {card.price_usd && (
                   <a 
@@ -138,13 +154,21 @@ const DeckDetails = () => {
                   onAlertUpdated={(updatedDeck) => setDeck(updatedDeck)}
                 />
               </div>
+              <div className="card-actions">
+                <CommanderButton
+                  deckId={id}
+                  cardName={card.name}
+                  isCommander={card.isCommander}
+                  onCommanderUpdated={(updatedDeck) => setDeck(updatedDeck)}
+                />
+                <button
+                  className="remove-card-button"
+                  onClick={() => handleRemoveCard(card.name)}
+                >
+                  Remove
+                </button>
+              </div>
             </div>
-            <button
-              className="remove-card-button"
-              onClick={() => handleRemoveCard(card.name)}
-            >
-              Remove
-            </button>
           </div>
         ))}
       </div>

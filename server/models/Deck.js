@@ -3,12 +3,14 @@ const mongoose = require("mongoose");
 // Define the schema for a deck
 const deckSchema = new mongoose.Schema({
   deckName: { type: String, required: true }, // Deck name is required
+  commander: { type: String }, // The name of the commander card
   cards: [
     {
       name: { type: String, required: true }, // Card name is required
       manaCost: { type: String }, // Optional mana cost
       type: { type: String }, // Card type (e.g., Creature, Instant)
       price_usd: { type: String }, // Current price in USD
+      isCommander: { type: Boolean, default: false }, // Flag to mark if this card is the commander
       priceAlert: {
         enabled: { type: Boolean, default: false },
         targetPrice: { type: Number }, // Price threshold for alert
