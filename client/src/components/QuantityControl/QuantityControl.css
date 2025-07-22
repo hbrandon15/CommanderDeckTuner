@@ -1,0 +1,69 @@
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 2px;
+  font-size: 14px;
+}
+
+.quantity-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.quantity-btn:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.quantity-btn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.quantity-btn.decrease {
+  background-color: #dc3545;
+}
+
+.quantity-btn.decrease:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
+.quantity-btn.increase {
+  background-color: #28a745;
+}
+
+.quantity-btn.increase:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.quantity-display {
+  min-width: 20px;
+  text-align: center;
+  font-weight: bold;
+  color: #495057;
+  padding: 0 4px;
+}
+
+/* Animation for quantity changes */
+.quantity-control {
+  transition: transform 0.1s ease;
+}
+
+.quantity-control:active {
+  transform: scale(0.98);
+}

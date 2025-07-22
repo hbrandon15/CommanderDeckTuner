@@ -10,6 +10,7 @@ const deckSchema = new mongoose.Schema({
       manaCost: { type: String }, // Optional mana cost
       type: { type: String }, // Card type (e.g., Creature, Instant)
       price_usd: { type: String }, // Current price in USD
+      quantity: { type: Number, default: 1 }, // Quantity of this card in the deck
       isCommander: { type: Boolean, default: false }, // Flag to mark if this card is the commander
       priceAlert: {
         enabled: { type: Boolean, default: false },

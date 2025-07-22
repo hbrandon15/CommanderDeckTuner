@@ -46,11 +46,13 @@ const DeckList = () => {
         <ul>
           {decks.map((deck) => {
             const commander = deck.cards?.find(card => card.isCommander);
+            const totalCards = deck.cards?.reduce((total, card) => total + (card.quantity || 1), 0) || 0;
+            const uniqueCards = deck.cards?.length || 0;
             return (
               <li key={deck._id} className="deck-item">
                 <div className="deck-main-info">
                   <Link to={`/decks/${deck._id}`} className="deck-name">{deck.deckName}</Link>
-                  <span className="card-count">({deck.cards?.length || 0} cards)</span>
+                  <span className="card-count">({totalCards} cards, {uniqueCards} unique)</span>
                 </div>
                 {commander && (
                   <div className="deck-commander">
