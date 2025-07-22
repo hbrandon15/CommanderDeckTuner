@@ -193,6 +193,77 @@ router.put("/:id/cards/:cardName/alert", async (req, res) => {  const { id, card
   }
 });
 
+// Set a card as commander
+router.put("/:id/cards/:cardName/commander", async (req, res) => {
+  const { id, cardName } = req.params;
+  const decodedCardName = decodeURIComponent(cardName);
+  
+  console.log("=== SET COMMANDER REQUEST ===");
+  console.log("DeckId:", id);
+  console.log("Card to set as commander:", decodedCardName);
+
+  try {
+    const deck = await Deck.findById(id);
+    if (!deck) {
+      return res.status(404).json({ message: "Deck not found" });
+    }
+
+    // Find the card to set as commander
+    const card = deck.cards.find(c => c.name === decodedCardName || c.name.toLowerCase() === decodedCardName.toLowerCase());
+    if (!card) {
+      return res.status(404).json({ 
+        message: "Card not found in deck",
+        availableCards: deck.cards.map(c => c.name)
+      });
+    }
+
+    // Reset all cards to not be commander
+    deck.cards.forEach(c => {
+      c.isCommander = false;
+    });
+
+    // Set the selected card as commander
+    card.isCommander = true;
+    deck.commander = card.name;
+
+    deck.markModified('cards');
+    await deck.save();
+
+    console.log(`✅ ${card.name} set as commander for deck: ${deck.deckName}`);
+    res.status(200).json(deck);
+  } catch (error) {
+    console.error("Error setting commander:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Remove commander status from deck
+router.delete("/:id/commander", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deck = await Deck.findById(id);
+    if (!deck) {
+      return res.status(404).json({ message: "Deck not found" });
+    }
+
+    // Reset all cards to not be commander
+    deck.cards.forEach(c => {
+      c.isCommander = false;
+    });
+
+    deck.commander = null;
+    deck.markModified('cards');
+    await deck.save();
+
+    console.log(`✅ Commander removed from deck: ${deck.deckName}`);
+    res.status(200).json(deck);
+  } catch (error) {
+    console.error("Error removing commander:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Get notifications for a deck
 router.get("/:id/notifications", async (req, res) => {
   const { id } = req.params;

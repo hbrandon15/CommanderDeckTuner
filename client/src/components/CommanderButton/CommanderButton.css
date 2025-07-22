@@ -1,0 +1,49 @@
+.commander-button {
+  background: none;
+  border: 2px solid #ddd;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 36px;
+  justify-content: center;
+}
+
+.commander-button:hover {
+  background-color: rgba(255, 215, 0, 0.1);
+  border-color: #FFD700;
+  transform: translateY(-1px);
+}
+
+.commander-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.commander-button.active {
+  background-color: #FFD700;
+  border-color: #FFA500;
+  color: #333;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
+}
+
+.commander-button.active:hover {
+  background-color: #FFA500;
+  border-color: #FF8C00;
+}
+
+/* Animation for the crown icon */
+.commander-button:hover {
+  animation: crown-shine 0.3s ease-in-out;
+}
+
+@keyframes crown-shine {
+  0% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.1) translateY(-2px); }
+  100% { transform: scale(1) translateY(0); }
+}

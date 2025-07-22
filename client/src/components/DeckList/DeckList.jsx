@@ -12,7 +12,19 @@ const DeckList = () => {
     const fetchDecks = async () => {
       try {
         const response = await axios.get("http://localhost:5001/api/decks");
-        setDecks(response.data); // Set the list of decks
+        // Fetch full deck details to get commander information
+        const decksWithDetails = await Promise.all(
+          response.data.map(async (deck) => {
+            try {
+              const deckResponse = await axios.get(`http://localhost:5001/api/decks/${deck._id}`);
+              return deckResponse.data;
+            } catch (error) {
+              console.error(`Error fetching details for deck ${deck._id}:`, error);
+              return deck; // Return basic deck info if detailed fetch fails
+            }
+          })
+        );
+        setDecks(decksWithDetails); // Set the list of decks with commander info
       } catch (error) {
         console.error("Error fetching decks:", error);
         setError("Failed to load decks. Please try again.");
@@ -32,11 +44,26 @@ const DeckList = () => {
       <h2 className="deck-list-title">Your Decks</h2> {/* Title header */}
       {decks.length > 0 ? (
         <ul>
-          {decks.map((deck) => (
-            <li key={deck._id}>
-              <Link to={`/decks/${deck._id}`}>{deck.deckName}</Link> {/* Link to DeckDetails */}
-            </li>
-          ))}
+          {decks.map((deck) => {
+            const commander = deck.cards?.find(card => card.isCommander);
+            return (
+              <li key={deck._id} className="deck-item">
+                <div className="deck-main-info">
+                  <Link to={`/decks/${deck._id}`} className="deck-name">{deck.deckName}</Link>
+                  <span className="card-count">({deck.cards?.length || 0} cards)</span>
+                </div>
+                {commander && (
+                  <div className="deck-commander">
+                    <span className="commander-icon">👑</span>
+                    <span className="commander-text">{commander.name}</span>
+                  </div>
+                )}
+                {!commander && (
+                  <div className="no-commander-text">No commander selected</div>
+                )}
+              </li>
+            );
+          })}
         </ul>
       ) : (
         <p>No decks available. Create one in the search page!</p>
