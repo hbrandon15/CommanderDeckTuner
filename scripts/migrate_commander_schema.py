@@ -25,7 +25,8 @@ def migrate_commander_schema():
         if "commander" not in deck:
             deck["commander"] = None
             deck_updated = True
-            print(f"  Added commander field to deck: {deck.get('deckName', deck['_id'])}")
+            print(
+                f"  Added commander field to deck: {deck.get('deckName', deck['_id'])}")
 
         # Process each card in the deck
         if "cards" in deck:
