@@ -264,6 +264,65 @@ router.delete("/:id/commander", async (req, res) => {
   }
 });
 
+// Update card quantity (only for basic lands)
+router.put("/:id/cards/:cardName/quantity", async (req, res) => {
+  const { id, cardName } = req.params;
+  const { quantity } = req.body;
+  const decodedCardName = decodeURIComponent(cardName);
+  
+  console.log("=== UPDATE QUANTITY REQUEST ===");
+  console.log("DeckId:", id);
+  console.log("Card:", decodedCardName);
+  console.log("New quantity:", quantity);
+
+  // Basic lands that can have multiple copies
+  const basicLands = ["Island", "Mountain", "Plains", "Swamp", "Forest"];
+  
+  try {
+    // Validate quantity
+    if (!Number.isInteger(quantity) || quantity < 1 || quantity > 20) {
+      return res.status(400).json({ 
+        message: "Quantity must be a whole number between 1 and 20" 
+      });
+    }
+
+    const deck = await Deck.findById(id);
+    if (!deck) {
+      return res.status(404).json({ message: "Deck not found" });
+    }
+
+    // Find the card
+    const card = deck.cards.find(c => 
+      c.name === decodedCardName || c.name.toLowerCase() === decodedCardName.toLowerCase()
+    );
+    
+    if (!card) {
+      return res.status(404).json({ 
+        message: "Card not found in deck",
+        availableCards: deck.cards.map(c => c.name)
+      });
+    }
+
+    // Check if the card is a basic land
+    if (!basicLands.includes(card.name)) {
+      return res.status(400).json({ 
+        message: "Only basic lands (Island, Mountain, Plains, Swamp, Forest) can have multiple copies"
+      });
+    }
+
+    // Update the quantity
+    card.quantity = quantity;
+    deck.markModified('cards');
+    await deck.save();
+
+    console.log(`✅ Updated ${card.name} quantity to ${quantity} in deck: ${deck.deckName}`);
+    res.status(200).json(deck);
+  } catch (error) {
+    console.error("Error updating card quantity:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Get notifications for a deck
 router.get("/:id/notifications", async (req, res) => {
   const { id } = req.params;

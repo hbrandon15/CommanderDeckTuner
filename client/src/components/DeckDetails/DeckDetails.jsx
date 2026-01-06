@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import PriceAlert from "../PriceAlert/PriceAlert";
 import Notifications from "../Notifications/Notifications";
 import CommanderButton from "../CommanderButton/CommanderButton";
+import QuantityControl from "../QuantityControl/QuantityControl";
 
 const DeckDetails = () => {
   const { id } = useParams(); // Get the deck ID from the URL
@@ -103,8 +104,9 @@ const DeckDetails = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="error-message">{error}</p>;
 
-  // Calculate the total number of cards
-  const totalCards = deck.cards.length;
+  // Calculate the total number of cards (accounting for quantities)
+  const totalCards = deck.cards.reduce((total, card) => total + (card.quantity || 1), 0);
+  const uniqueCards = deck.cards.length;
   const commander = deck.cards.find(card => card.isCommander);
   
   return (
@@ -115,7 +117,7 @@ const DeckDetails = () => {
       </div>
       
       <div className="deck-info">
-        <p>Total Cards: {totalCards}</p>
+        <p>Total Cards: {totalCards} ({uniqueCards} unique)</p>
         {commander && (
           <p className="commander-info">
             <span className="commander-label">👑 Commander:</span>
@@ -135,7 +137,20 @@ const DeckDetails = () => {
           <div key={index} className={`card-item ${card.isCommander ? 'commander-card' : ''}`}>
             <img src={card.imageUrl} alt={card.name} className="card-image" />
             <div className="card-info">
-              <span className="card-name">{card.name}</span>
+              <div className="card-name-quantity">
+                <span className="card-name">{card.name}</span>
+                {card.quantity > 1 && (
+                  <span className="quantity-badge">x{card.quantity}</span>
+                )}
+              </div>
+              
+              <QuantityControl
+                deckId={id}
+                cardName={card.name}
+                currentQuantity={card.quantity || 1}
+                onQuantityUpdated={(updatedDeck) => setDeck(updatedDeck)}
+              />
+              
               <div className="card-price-container">
                 {card.price_usd && (
                   <a 
