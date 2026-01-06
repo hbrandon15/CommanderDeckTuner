@@ -59,9 +59,61 @@ const DeckDetails = () => {
         setLoading(false); // Stop loading
       }
     };
+    fetchDeck();
+  }, [id]);
+
+   useEffect(() => {
+    const fetchDeck = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5001/api/decks/${id}`
+        );
+        const deckData = response.data;
+
+        // Fetch images for all cards in the deck
+        const updatedCards = await Promise.all(
+          deckData.cards.map(async (card) => {
+            const imageUrl = await fetchCardImage(card.name); // Fetch image from Scryfall
+            return { ...card, imageUrl }; // Add the image URL to the card
+          })
+        );
+
+        setDeck({ ...deckData, cards: updatedCards }); // Update the deck with image URLs
+      } catch (error) {
+        console.error("Error fetching deck:", error);
+        setError("Failed to load the deck. Please try again.");
+      } finally {
+        setLoading(false); // Stop loading
+      }
+    };
 
     fetchDeck();
   }, [id]);
+
+  // Backfill images whenever deck.cards changes (e.g., after remove/quantity/commander updates)
+  useEffect(() => {
+    if (!deck?.cards?.length) return;
+
+    const missing = deck.cards.filter((c) => !c.imageUrl);
+    if (missing.length === 0) return;
+
+    let cancelled = false;
+    (async () => {
+      const urls = await Promise.all(missing.map((c) => fetchCardImage(c.name)));
+      if (cancelled) return;
+      const urlMap = new Map(missing.map((c, i) => [c.name, urls[i]]));
+      setDeck((prev) => ({
+        ...prev,
+        cards: prev.cards.map((c) =>
+          c.imageUrl ? c : { ...c, imageUrl: urlMap.get(c.name) || null }
+        ),
+      }));
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [deck?.cards]);
 
   // Function to handle removing a card from the deck
   // This function will be called when the user clicks the "Remove" button
