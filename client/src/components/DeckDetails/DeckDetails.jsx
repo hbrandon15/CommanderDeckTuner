@@ -232,7 +232,7 @@ const DeckDetails = () => {
                   className="remove-card-button"
                   onClick={() => handleRemoveCard(card.name)}
                 >
-                  Remove
+                  Remove All
                 </button>
               </div>
             </div>
