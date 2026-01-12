@@ -3,11 +3,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./DeckList.css";
 
-function showAlert(message) {
-  window.alert(message);
-}
-
-// COMPONENT TO DISPLAY LIST OF DECKS
 const DeckList = () => {
   const [decks, setDecks] = useState([]); // State to store the list of decks
   const [loading, setLoading] = useState(true); // State for loading
@@ -16,7 +11,7 @@ const DeckList = () => {
   const [showImportModal, setShowImportModal] = useState(false); // State to control import modal visibility
 
   /**
-   * Converts a string list of cards (e.g. "4x Sol Ring") into an array of card objects
+   * FUNCTION: Converts a string list of cards (e.g. "4x Sol Ring") into an array of card objects
    * with name and quantity properties.
    */
   const parseCardList = (text) => {
