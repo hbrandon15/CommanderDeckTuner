@@ -43,6 +43,29 @@ const DeckList = () => {
       }
     };
 
+    /**
+     * Converts a string list of cards (e.g. "4x Sol Ring") into an array of card objects
+     * with name and quantity properties.
+     */
+    const parseCardList = (text) => {
+      const lines = text.split("\n").filter((line) => line.trim() !== "");
+
+      return lines.map((line) => {
+        // Regex looks for leading digits followed by an optional 'x' or 'X' and whitespace
+        const match = line.match(/^(\d+)[xX]?\s+(.+)$/);
+
+        if (match) {
+          return {
+            name: match[2].trim(),
+            quantity: parseInt(match[1])
+          };
+        }
+
+        // Default to quantity of 1 if no number is specified (e.g. "Sol Ring")
+        return { name: line.trim(), quantity: 1 };
+      });
+    };
+
     fetchDecks();
   }, []);
 
@@ -56,9 +79,9 @@ const DeckList = () => {
         <button onClick={() => showAlert("This is a test alert!")}>
           Test Alert
         </button>
-		<h2 className="deck-list-title">Your Decks</h2>
+        <h2 className="deck-list-title">Your Decks</h2>
       </div>
-      
+
       {decks.length > 0 ? (
         <ul>
           {decks.map((deck) => {
