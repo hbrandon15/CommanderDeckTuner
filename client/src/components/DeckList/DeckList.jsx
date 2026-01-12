@@ -15,6 +15,53 @@ const DeckList = () => {
   const [pastedText, setPastedText] = useState(""); // State for pasted text
   const [showImportModal, setShowImportModal] = useState(false); // State to control import modal visibility
 
+  /**
+   * Converts a string list of cards (e.g. "4x Sol Ring") into an array of card objects
+   * with name and quantity properties.
+   */
+  const parseCardList = (text) => {
+    const lines = text.split("\n").filter((line) => line.trim() !== "");
+
+    return lines.map((line) => {
+      // Regex looks for leading digits followed by an optional 'x' or 'X' and whitespace
+      const match = line.match(/^(\d+)[xX]?\s+(.+)$/);
+
+      if (match) {
+        return {
+          name: match[2].trim(),
+          quantity: parseInt(match[1]),
+        };
+      }
+
+      // Default to quantity of 1 if no number is specified (e.g. "Sol Ring")
+      return { name: line.trim(), quantity: 1 };
+    });
+  };
+
+  /**
+   *  Handle paste import
+   *  */
+  const handlePasteImport = async () => {
+    if (!pastedText.trim()) {
+      setError("Please paste a valid card list to import.");
+      return;
+    }
+    const parsedCards = parseCardList(pastedText);
+
+    try {
+      const response = await axios.post("http://localhost:5001/api/decks", {
+        deckName: "Imported Deck",
+        cards: parsedCards,
+      });
+      setDecks([...decks, response.data]);
+      setPastedText(""); // Clear pasted text
+      setShowImportModal(false); // Close modal
+      alert("Deck imported successfully!");
+    } catch (error) {
+      setError("Failed to import deck. Please try again.");
+    }
+  };
+
   useEffect(() => {
     const fetchDecks = async () => {
       try {
@@ -45,54 +92,6 @@ const DeckList = () => {
       }
     };
 
-    /**
-     * Converts a string list of cards (e.g. "4x Sol Ring") into an array of card objects
-     * with name and quantity properties.
-     */
-    const parseCardList = (text) => {
-      const lines = text.split("\n").filter((line) => line.trim() !== "");
-
-      return lines.map((line) => {
-        // Regex looks for leading digits followed by an optional 'x' or 'X' and whitespace
-        const match = line.match(/^(\d+)[xX]?\s+(.+)$/);
-
-        if (match) {
-          return {
-            name: match[2].trim(),
-            quantity: parseInt(match[1]),
-          };
-        }
-
-        // Default to quantity of 1 if no number is specified (e.g. "Sol Ring")
-        return { name: line.trim(), quantity: 1 };
-      });
-    };
-
-    /**
-     *  Handle paste import
-     *  */
-    const handlePasteImport = async () => {
-		if (!pastedText.trim()) {
-			setError("Please paste a valid card list to import.");
-			return;
-		}
-		const parsedCards = parseCardList(pastedText);
-
-		try{
-			const response = await axios.post("http://localhost:5001/api/decks", {
-				deckName: "Imported Deck",
-				cards: parsedCards,
-			});
-			setDecks([...decks, response.data]);
-			setPastedText(""); // Clear pasted text
-			setShowImportModal(false); // Close modal
-			alert("Deck imported successfully!");
-		}
-		catch(error){
-			setError("Failed to import deck. Please try again.");
-		}
-	};
-      
     fetchDecks();
   }, []);
 
@@ -103,24 +102,24 @@ const DeckList = () => {
   return (
     <div className="deck-list">
       <div className="deck-header">
-        <button onClick={() => showAlert("This is a test alert!")}>
-          Test Alert
+        <button onClick={() => setShowImportModal(true)}>
+          Import Deck
         </button>
         <h2 className="deck-list-title">Your Decks</h2>
       </div>
 
-	  {showImportModal && (
-		<div className="import-modal">
-			<textarea
-				value={pastedText}
-				onChange={(e) => setPastedText(e.target.value)}
-				placeholder="Paste your card list here..."
-				rows="10"
-			/>
-			<button onClick={handlePasteImport}>Import Deck</button>
-			<button onClick={() => setShowImportModal(false)}>Cancel</button>
-		</div>
-	  )}
+      {showImportModal && (
+        <div className="import-modal">
+          <textarea
+            value={pastedText}
+            onChange={(e) => setPastedText(e.target.value)}
+            placeholder="Paste your card list here..."
+            rows="10"
+          />
+          <button onClick={handlePasteImport}>Import Deck</button>
+          <button onClick={() => setShowImportModal(false)}>Cancel</button>
+        </div>
+      )}
 
       {decks.length > 0 ? (
         <ul>
