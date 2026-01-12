@@ -14,6 +14,7 @@ const DeckDetails = () => {
   const [deck, setDeck] = useState(null); // State to store the deck
   const [loading, setLoading] = useState(true); // State for loading
   const [error, setError] = useState(null); // State for errors
+
   // Function to fetch card image from Scryfall
   const fetchCardImage = async (cardName) => {
     try {
@@ -35,33 +36,7 @@ const DeckDetails = () => {
     return `https://www.tcgplayer.com/search/magic/product?q=${encodedCardName}&view=grid`;
   };
 
-  useEffect(() => {
-    const fetchDeck = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5001/api/decks/${id}`
-        );
-        const deckData = response.data;
-
-        // Fetch images for all cards in the deck
-        const updatedCards = await Promise.all(
-          deckData.cards.map(async (card) => {
-            const imageUrl = await fetchCardImage(card.name); // Fetch image from Scryfall
-            return { ...card, imageUrl }; // Add the image URL to the card
-          })
-        );
-
-        setDeck({ ...deckData, cards: updatedCards }); // Update the deck with image URLs
-      } catch (error) {
-        console.error("Error fetching deck:", error);
-        setError("Failed to load the deck. Please try again.");
-      } finally {
-        setLoading(false); // Stop loading
-      }
-    };
-    fetchDeck();
-  }, [id]);
-
+  // Fetch the deck details when the component mounts
    useEffect(() => {
     const fetchDeck = async () => {
       try {
