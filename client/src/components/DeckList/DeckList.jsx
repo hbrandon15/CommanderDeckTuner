@@ -57,13 +57,43 @@ const DeckList = () => {
         if (match) {
           return {
             name: match[2].trim(),
-            quantity: parseInt(match[1])
+            quantity: parseInt(match[1]),
           };
         }
 
         // Default to quantity of 1 if no number is specified (e.g. "Sol Ring")
         return { name: line.trim(), quantity: 1 };
       });
+    };
+
+    /**
+     *  Handle file upload
+     *  */
+    const handleFileUpload = async (event) => {
+      const file = event.target.files[0];
+
+      if (!file) return;
+
+      const text = await file.text();
+      // Parse the uploaded file text into card objects
+      const cards = parseCardList(text);
+
+      if (cards.length === 0) {
+        setError("No valid cards found in the uploaded file.");
+        return;
+      }
+
+      try {
+        const response = await axios.post("http://localhost:5001/api/decks", {
+          deckName: file.name.replace(/\.[^/.]+$/, ""), // Use file name without extension
+          cards: cards,
+        });
+        setDecks([...decks, response.data]); // Add the new deck to the list
+        alert("Deck imported successfully!");
+      } catch (error) {
+        console.error("Error importing deck:", error);
+        setError("Failed to import deck. Please try again.");
+      }
     };
 
     fetchDecks();
