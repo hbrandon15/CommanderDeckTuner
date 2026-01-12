@@ -180,6 +180,7 @@ const DeckDetails = () => {
     <div className="deck-details">
       <div className="deck-header">
         {isEditingName ? (
+          // Edit deck name input
           <div className="edit-deck-container">
             <input
               type="text"
@@ -192,7 +193,7 @@ const DeckDetails = () => {
                   setIsEditingName(false);
                 }
               }}
-              autoFocus
+              autoFocus // Focus the input when it appears
               className="edit-deck-input"
             />
             <button
@@ -209,6 +210,7 @@ const DeckDetails = () => {
             </button>
           </div>
         ) : (
+          // Display deck name
           <h2
             onClick={() => {
               setIsEditingName(true);
