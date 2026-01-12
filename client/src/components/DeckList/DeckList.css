@@ -1,10 +1,17 @@
 .deck-list {
+  display: flex;
+  flex-direction: column;
   padding: 20px;
+}
+
+.deck-list button{
+	align-self: flex-start;
+	margin-bottom: 1rem; 
 }
 
 .deck-list-title {
   font-size: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
   text-align: center; /* Center the title */
 }
 
@@ -59,13 +66,13 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(135deg, #FFD700, #FFA500);
+  background: linear-gradient(135deg, #ffd700, #ffa500);
   color: #333;
   padding: 6px 10px;
   border-radius: 6px;
   font-size: 0.9em;
   font-weight: bold;
-  border: 1px solid #FF8C00;
+  border: 1px solid #ff8c00;
   box-shadow: 0 1px 3px rgba(255, 215, 0, 0.2);
 }
 

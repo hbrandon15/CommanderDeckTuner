@@ -3,6 +3,11 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./DeckList.css";
 
+function showAlert(message) {
+  window.alert(message);
+}
+
+// COMPONENT TO DISPLAY LIST OF DECKS
 const DeckList = () => {
   const [decks, setDecks] = useState([]); // State to store the list of decks
   const [loading, setLoading] = useState(true); // State for loading
@@ -16,10 +21,15 @@ const DeckList = () => {
         const decksWithDetails = await Promise.all(
           response.data.map(async (deck) => {
             try {
-              const deckResponse = await axios.get(`http://localhost:5001/api/decks/${deck._id}`);
+              const deckResponse = await axios.get(
+                `http://localhost:5001/api/decks/${deck._id}`
+              );
               return deckResponse.data;
             } catch (error) {
-              console.error(`Error fetching details for deck ${deck._id}:`, error);
+              console.error(
+                `Error fetching details for deck ${deck._id}:`,
+                error
+              );
               return deck; // Return basic deck info if detailed fetch fails
             }
           })
@@ -39,20 +49,35 @@ const DeckList = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="error-message">{error}</p>;
 
+  // RENDER THE LIST OF DECKS
   return (
     <div className="deck-list">
-      <h2 className="deck-list-title">Your Decks</h2> {/* Title header */}
+      <div className="deck-header">
+        <button onClick={() => showAlert("This is a test alert!")}>
+          Test Alert
+        </button>
+		<h2 className="deck-list-title">Your Decks</h2>
+      </div>
+      
       {decks.length > 0 ? (
         <ul>
           {decks.map((deck) => {
-            const commander = deck.cards?.find(card => card.isCommander);
-            const totalCards = deck.cards?.reduce((total, card) => total + (card.quantity || 1), 0) || 0;
+            const commander = deck.cards?.find((card) => card.isCommander);
+            const totalCards =
+              deck.cards?.reduce(
+                (total, card) => total + (card.quantity || 1),
+                0
+              ) || 0;
             const uniqueCards = deck.cards?.length || 0;
             return (
               <li key={deck._id} className="deck-item">
                 <div className="deck-main-info">
-                  <Link to={`/decks/${deck._id}`} className="deck-name">{deck.deckName}</Link>
-                  <span className="card-count">({totalCards} cards, {uniqueCards} unique)</span>
+                  <Link to={`/decks/${deck._id}`} className="deck-name">
+                    {deck.deckName}
+                  </Link>
+                  <span className="card-count">
+                    ({totalCards} cards, {uniqueCards} unique)
+                  </span>
                 </div>
                 {commander && (
                   <div className="deck-commander">
