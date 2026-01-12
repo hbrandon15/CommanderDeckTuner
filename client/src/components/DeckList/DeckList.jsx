@@ -12,6 +12,8 @@ const DeckList = () => {
   const [decks, setDecks] = useState([]); // State to store the list of decks
   const [loading, setLoading] = useState(true); // State for loading
   const [error, setError] = useState(null); // State for errors
+  const [pastedText, setPastedText] = useState(""); // State for pasted text
+  const [showImportModal, setShowImportModal] = useState(false); // State to control import modal visibility
 
   useEffect(() => {
     const fetchDecks = async () => {
@@ -70,6 +72,10 @@ const DeckList = () => {
      *  Handle paste import
      *  */
     const handlePasteImport = async () => {
+		if (!pastedText.trim()) {
+			setError("Please paste a valid card list to import.");
+			return;
+		}
 		const parsedCards = parseCardList(pastedText);
 
 		try{
@@ -78,6 +84,8 @@ const DeckList = () => {
 				cards: parsedCards,
 			});
 			setDecks([...decks, response.data]);
+			setPastedText(""); // Clear pasted text
+			setShowImportModal(false); // Close modal
 			alert("Deck imported successfully!");
 		}
 		catch(error){
@@ -100,6 +108,18 @@ const DeckList = () => {
         </button>
         <h2 className="deck-list-title">Your Decks</h2>
       </div>
+
+	  {showImportModal && (
+		<div className="import-modal">
+			<textarea
+				value={pastedText}
+				onChange={(e) => setPastedText(e.target.value)}
+				placeholder="Paste your card list here..."
+				rows="10"
+			/>
+			<button onClick={handlePasteImport}>Import Deck</button>
+			<button onClick={() => setShowImportModal(false)}>Cancel</button>
+		</div>
 
       {decks.length > 0 ? (
         <ul>
