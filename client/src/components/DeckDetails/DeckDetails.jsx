@@ -15,7 +15,10 @@ const DeckDetails = () => {
   const [loading, setLoading] = useState(true); // State for loading
   const [error, setError] = useState(null); // State for errors
 
-  // Function to fetch card image from Scryfall
+  /**
+   * 
+   * FUNCTION: get card image from Scryfall API
+   */
   const fetchCardImage = async (cardName) => {
     try {
       const response = await axios.get(
@@ -30,10 +33,30 @@ const DeckDetails = () => {
     }
   };
 
-  // Function to generate TCGPlayer URL for a card
+ /**
+  * 
+  * FUNCTION: generate TCGPlayer URL for a given card name
+  */
   const generateTCGPlayerURL = (cardName) => {
     const encodedCardName = encodeURIComponent(cardName);
     return `https://www.tcgplayer.com/search/magic/product?q=${encodedCardName}&view=grid`;
+  };
+
+  /**
+   * FUNCTION: edit deck name
+   */
+  const editDeckName = async (newName) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:5001/api/decks/${id}`,
+        { deckName: newName }
+      );
+      setDeck(response.data);
+      toast.success("Deck name updated successfully.");
+    } catch (error) {
+      console.error("Error updating deck name:", error);
+      toast.error("Failed to update deck name. Please try again.");
+    }
   };
 
   // Fetch the deck details when the component mounts
