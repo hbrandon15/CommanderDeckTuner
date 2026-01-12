@@ -237,6 +237,29 @@ router.put("/:id/cards/:cardName/commander", async (req, res) => {
   }
 });
 
+// Update deck name
+router.put("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { deckName } = req.body;
+
+    const updatedDeck = await Deck.findByIdAndUpdate(
+      id,
+      { deckName: deckName },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedDeck) {
+      return res.status(404).json({ message: "Deck not found" });
+    }
+
+    res.json(updatedDeck);
+  } catch (error) {
+    console.error("Error updating deck name:", error);
+    res.status(500).json({ message: "Failed to update deck name" });
+  }
+});
+
 // Remove commander status from deck
 router.delete("/:id/commander", async (req, res) => {
   const { id } = req.params;

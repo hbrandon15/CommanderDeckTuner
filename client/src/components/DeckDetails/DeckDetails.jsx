@@ -14,9 +14,11 @@ const DeckDetails = () => {
   const [deck, setDeck] = useState(null); // State to store the deck
   const [loading, setLoading] = useState(true); // State for loading
   const [error, setError] = useState(null); // State for errors
+  const [isEditingName, setIsEditingName] = useState(false); // State for editing deck name
+  const [newDeckName, setNewDeckName] = useState(""); // State for new deck name input
 
   /**
-   * 
+   *
    * FUNCTION: get card image from Scryfall API
    */
   const fetchCardImage = async (cardName) => {
@@ -33,10 +35,10 @@ const DeckDetails = () => {
     }
   };
 
- /**
-  * 
-  * FUNCTION: generate TCGPlayer URL for a given card name
-  */
+  /**
+   *
+   * FUNCTION: generate TCGPlayer URL for a given card name
+   */
   const generateTCGPlayerURL = (cardName) => {
     const encodedCardName = encodeURIComponent(cardName);
     return `https://www.tcgplayer.com/search/magic/product?q=${encodedCardName}&view=grid`;
@@ -46,12 +48,17 @@ const DeckDetails = () => {
    * FUNCTION: edit deck name
    */
   const editDeckName = async (newName) => {
+    if (!newName.trim()) {
+      toast.error("Deck name cannot be empty.");
+      return;
+    }
     try {
       const response = await axios.put(
         `http://localhost:5001/api/decks/${id}`,
         { deckName: newName }
       );
       setDeck(response.data);
+      setIsEditingName(false);
       toast.success("Deck name updated successfully.");
     } catch (error) {
       console.error("Error updating deck name:", error);
@@ -59,8 +66,51 @@ const DeckDetails = () => {
     }
   };
 
+  /**
+   *
+   * FUNCTION:  To handle removing a card from the deck.
+   */
+
+  const handleRemoveCard = async (cardName) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:5001/api/decks/${id}/cards/${encodeURIComponent(
+          cardName
+        )}`
+      );
+      setDeck(response.data); // Update the deck state with the updated deck
+      toast.success("Card removed from the deck.");
+    } catch (error) {
+      console.error("Error removing card:", error);
+      toast.error("Failed to remove the card. Please try again.");
+    }
+  };
+
+  /**
+   *
+   * FUNCTION: To handle clearing all cards from the deck.
+   */
+  const handleClearDeck = async () => {
+    if (
+      !window.confirm(
+        "Are you sure you want to clear all cards from this deck?"
+      )
+    )
+      return;
+    try {
+      const response = await axios.delete(
+        `http://localhost:5001/api/decks/${id}/cards`
+      );
+      setDeck(response.data); // Update the deck state with the cleared deck
+      toast.success("All cards have been cleared from the deck.");
+    } catch (error) {
+      console.error("Error clearing deck:", error);
+      toast.error("Failed to clear the deck. Please try again.");
+    }
+  };
+
   // Fetch the deck details when the component mounts
-   useEffect(() => {
+  useEffect(() => {
     const fetchDeck = async () => {
       try {
         const response = await axios.get(
@@ -97,7 +147,9 @@ const DeckDetails = () => {
 
     let cancelled = false;
     (async () => {
-      const urls = await Promise.all(missing.map((c) => fetchCardImage(c.name)));
+      const urls = await Promise.all(
+        missing.map((c) => fetchCardImage(c.name))
+      );
       if (cancelled) return;
       const urlMap = new Map(missing.map((c, i) => [c.name, urls[i]]));
       setDeck((prev) => ({
@@ -113,61 +165,67 @@ const DeckDetails = () => {
     };
   }, [deck?.cards]);
 
-  // Function to handle removing a card from the deck
-  // This function will be called when the user clicks the "Remove" button
-  const handleRemoveCard = async (cardName) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:5001/api/decks/${id}/cards/${encodeURIComponent(
-          cardName
-        )}`
-      );
-      setDeck(response.data); // Update the deck state with the updated deck
-      toast.success("Card removed from the deck.");
-    } catch (error) {
-      console.error("Error removing card:", error);
-      toast.error("Failed to remove the card. Please try again.");
-    }
-  };
-
-  // Function to handle clearing the entire deck
-  // This function will be called when the user clicks the "Clear Deck" button
-  const handleClearDeck = async () => {
-    if (
-      !window.confirm(
-        "Are you sure you want to clear all cards from this deck?"
-      )
-    )
-      return;
-    try {
-      const response = await axios.delete(
-        `http://localhost:5001/api/decks/${id}/cards`
-      );
-      setDeck(response.data); // Update the deck state with the cleared deck
-      toast.success("All cards have been cleared from the deck.");
-    } catch (error) {
-      console.error("Error clearing deck:", error);
-      toast.error("Failed to clear the deck. Please try again.");
-    }
-  };
-
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="error-message">{error}</p>;
 
   // Calculate the total number of cards (accounting for quantities)
-  const totalCards = deck.cards.reduce((total, card) => total + (card.quantity || 1), 0);
+  const totalCards = deck.cards.reduce(
+    (total, card) => total + (card.quantity || 1),
+    0
+  );
   const uniqueCards = deck.cards.length;
-  const commander = deck.cards.find(card => card.isCommander);
-  
+  const commander = deck.cards.find((card) => card.isCommander);
+
   return (
     <div className="deck-details">
       <div className="deck-header">
-        <h2>{deck.deckName}</h2>
+        {isEditingName ? (
+          <div className="edit-deck-container">
+            <input
+              type="text"
+              value={newDeckName}
+              onChange={(e) => setNewDeckName(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  editDeckName(newDeckName);
+                } else if (e.key === "Escape") {
+                  setIsEditingName(false);
+                }
+              }}
+              autoFocus
+              className="edit-deck-input"
+            />
+            <button
+              onClick={() => editDeckName(newDeckName)}
+              className="save-deck-name-button"
+            >
+              Save
+            </button>
+            <button
+              onClick={() => setIsEditingName(false)}
+              className="cancel-edit-button"
+            >
+              Cancel
+            </button>
+          </div>
+        ) : (
+          <h2
+            onClick={() => {
+              setIsEditingName(true);
+              setNewDeckName(deck.deckName);
+            }}
+            className="editable-title"
+          >
+            {deck.deckName}
+          </h2>
+        )}
         <Notifications deckId={id} />
       </div>
-      
+
       <div className="deck-info">
-        <p>Total Cards: {totalCards} ({uniqueCards} unique)</p>
+        <p>
+          Total Cards: {totalCards} ({uniqueCards} unique)
+        </p>
         {commander && (
           <p className="commander-info">
             <span className="commander-label">👑 Commander:</span>
@@ -175,16 +233,24 @@ const DeckDetails = () => {
           </p>
         )}
         {!commander && (
-          <p className="no-commander">No commander selected. Click the crown button on any card to set it as your commander.</p>
+          <p className="no-commander">
+            No commander selected. Click the crown button on any card to set it
+            as your commander.
+          </p>
         )}
       </div>
-      
+
       <button className="clear-deck-button" onClick={handleClearDeck}>
         Clear Deck
       </button>
       <ToastContainer />
-      <div className="card-grid">        {deck.cards.map((card, index) => (
-          <div key={index} className={`card-item ${card.isCommander ? 'commander-card' : ''}`}>
+      <div className="card-grid">
+        {" "}
+        {deck.cards.map((card, index) => (
+          <div
+            key={index}
+            className={`card-item ${card.isCommander ? "commander-card" : ""}`}
+          >
             <img src={card.imageUrl} alt={card.name} className="card-image" />
             <div className="card-info">
               <div className="card-name-quantity">
@@ -193,19 +259,19 @@ const DeckDetails = () => {
                   <span className="quantity-badge">x{card.quantity}</span>
                 )}
               </div>
-              
+
               <QuantityControl
                 deckId={id}
                 cardName={card.name}
                 currentQuantity={card.quantity || 1}
                 onQuantityUpdated={(updatedDeck) => setDeck(updatedDeck)}
               />
-              
+
               <div className="card-price-container">
                 {card.price_usd && (
-                  <a 
-                    href={generateTCGPlayerURL(card.name)} 
-                    target="_blank" 
+                  <a
+                    href={generateTCGPlayerURL(card.name)}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="card-price-link"
                   >
