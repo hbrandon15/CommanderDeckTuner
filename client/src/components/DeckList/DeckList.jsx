@@ -120,6 +120,7 @@ const DeckList = () => {
 			<button onClick={handlePasteImport}>Import Deck</button>
 			<button onClick={() => setShowImportModal(false)}>Cancel</button>
 		</div>
+	  )}
 
       {decks.length > 0 ? (
         <ul>
