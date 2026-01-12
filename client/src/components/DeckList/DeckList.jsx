@@ -67,35 +67,24 @@ const DeckList = () => {
     };
 
     /**
-     *  Handle file upload
+     *  Handle paste import
      *  */
-    const handleFileUpload = async (event) => {
-      const file = event.target.files[0];
+    const handlePasteImport = async () => {
+		const parsedCards = parseCardList(pastedText);
 
-      if (!file) return;
-
-      const text = await file.text();
-      // Parse the uploaded file text into card objects
-      const cards = parseCardList(text);
-
-      if (cards.length === 0) {
-        setError("No valid cards found in the uploaded file.");
-        return;
-      }
-
-      try {
-        const response = await axios.post("http://localhost:5001/api/decks", {
-          deckName: file.name.replace(/\.[^/.]+$/, ""), // Use file name without extension
-          cards: cards,
-        });
-        setDecks([...decks, response.data]); // Add the new deck to the list
-        alert("Deck imported successfully!");
-      } catch (error) {
-        console.error("Error importing deck:", error);
-        setError("Failed to import deck. Please try again.");
-      }
-    };
-
+		try{
+			const response = await axios.post("http://localhost:5001/api/decks", {
+				deckName: "Imported Deck",
+				cards: parsedCards,
+			});
+			setDecks([...decks, response.data]);
+			alert("Deck imported successfully!");
+		}
+		catch(error){
+			setError("Failed to import deck. Please try again.");
+		}
+	};
+      
     fetchDecks();
   }, []);
 
